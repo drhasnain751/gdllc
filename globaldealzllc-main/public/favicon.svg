@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="GlobalDealz icon">
+  <rect width="128" height="128" rx="28" fill="#0F1F3B"/>
+  <path d="M34 31h36c12.15 0 22 9.85 22 22v7h-13v-7c0-5.03-4.08-9.11-9.11-9.11H34c-5.03 0-9.11 4.08-9.11 9.11v38.89c0 5.03 4.08 9.11 9.11 9.11h24v13H34c-12.15 0-22-9.85-22-22V53c0-12.15 9.85-22 22-22Z" fill="#F5F9FF"/>
+  <path d="M50 59h21v13H50zm20 0h13v29H70zm-20 18h13v13H50z" fill="#F5F9FF"/>
+  <rect x="73" y="64" width="18" height="18" rx="4" fill="#5AB7F4"/>
+</svg>
