@@ -46,12 +46,12 @@ export function SiteFooter() {
             </a>
           </address>
         </div>
-        <nav aria-label="Legal" className="grid content-start gap-3">
+        <nav aria-label="Legal" className="legal-nav grid content-start gap-3">
           {legalLinks.map(([label, to]) => (
             <Link
               key={to}
               to={to}
-              className="group flex items-center justify-between border-b border-border py-2 text-sm text-dark-panel-foreground hover:text-cyan-300"
+              className="site-footer-link group flex items-center justify-between border-b py-3 text-sm text-dark-panel-foreground hover:text-cyan-300"
             >
               {label}
               <ArrowUpRight className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

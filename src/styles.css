@@ -432,6 +432,49 @@
     text-decoration: underline;
   }
 
+  /* Footer readability and polish */
+  .site-footer {
+    padding-bottom: 18px;
+    border-radius: 20px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.02), 0 18px 60px rgba(2,6,23,0.6);
+    background: linear-gradient(180deg, color-mix(in oklab, var(--dark-panel) 96%, transparent 4%), var(--dark-panel));
+  }
+
+  .site-footer .depth-panel {
+    padding: 32px;
+    border-radius: 20px;
+  }
+
+  .site-footer p,
+  .site-footer address {
+    color: color-mix(in oklab, var(--dark-panel-foreground) 96%, var(--accent) 4%);
+    font-weight: 600;
+    line-height: 1.6;
+    opacity: 0.98;
+  }
+
+  .site-footer .legal-nav a.site-footer-link {
+    border-color: color-mix(in oklab, var(--border) 42%, transparent 58%);
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    transition: color 140ms ease, border-color 140ms ease, transform 140ms ease;
+  }
+
+  .site-footer .legal-nav a.site-footer-link:hover {
+    color: color-mix(in oklab, var(--accent) 56%, var(--dark-panel-foreground) 44%);
+    transform: translateX(4px);
+  }
+
+  .site-footer .legal-nav a.site-footer-link svg {
+    opacity: 0.72;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.35));
+  }
+
+  /* Make the bottom copyright line slightly brighter */
+  .site-footer > .border-t {
+    color: color-mix(in oklab, var(--dark-panel-foreground) 92%, var(--accent) 8%);
+  }
+
   .glass-surface {
     border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
     background: color-mix(in oklab, var(--card) 70%, transparent);
