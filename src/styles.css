@@ -263,6 +263,57 @@
     background: color-mix(in oklab, var(--accent-strong) 30%, transparent);
     color: var(--foreground);
   }
+
+  .surface-3d {
+    position: relative;
+    transform-style: preserve-3d;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+    box-shadow: 0 30px 80px rgba(15, 23, 42, 0.14);
+  }
+
+  .surface-3d::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), transparent 35%, rgba(56, 189, 248, 0.04));
+    pointer-events: none;
+  }
+
+  .tilt-card,
+  .step-card,
+  .stat-card {
+    position: relative;
+    transform-style: preserve-3d;
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      border-color 180ms ease;
+    will-change: transform;
+  }
+
+  .tilt-card:hover,
+  .step-card:hover,
+  .stat-card:hover {
+    transform: translateY(-7px) rotateX(4deg) rotateY(-3deg);
+    box-shadow: 0 24px 60px rgba(14, 116, 144, 0.16);
+    border-color: rgba(103, 232, 249, 0.38);
+  }
+
+  .step-card::after,
+  .tilt-card::after,
+  .stat-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.14), transparent 38%, rgba(34, 211, 238, 0.06));
+    pointer-events: none;
+  }
+
+  .stat-card {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  }
 }
 
 @utility grid-fade {

@@ -660,7 +660,7 @@ function HomePage() {
               {services.map(({ icon: Icon, title, copy, tag, to }) => (
                 <article
                   key={title}
-                  className="group rounded-[28px] border border-border bg-card p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+                  className="tilt-card surface-3d group relative rounded-[28px] border border-border bg-card p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
                 >
                   <div className="flex items-start justify-between">
                     <span className="grid size-12 place-items-center rounded-2xl bg-cyan-400/12 text-cyan-300">
@@ -686,7 +686,7 @@ function HomePage() {
         </section>
 
         <section id="infrastructure" className="scroll-mt-20 bg-dark-panel py-24 text-dark-panel-foreground lg:py-32">
-          <div className="mx-auto max-w-7xl px-5 lg:px-8">
+          <div className="surface-3d mx-auto max-w-7xl rounded-[32px] border border-white/10 px-5 py-8 lg:px-8">
             <div className="grid gap-8 lg:grid-cols-[.7fr_1.3fr] lg:items-end">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">
@@ -719,7 +719,7 @@ function HomePage() {
               ["02", "Onboarding & Setup", "We align company structure, payment infrastructure, and warehouse alignment for your route to market."],
               ["03", "Launch & Scale", "Product research, marketplace operation, and operational oversight move into execution."],
             ].map(([number, title, copy]) => (
-              <article key={number} className="relative">
+              <article key={number} className="step-card relative rounded-[28px] border border-border bg-card p-7 shadow-sm">
                 <span className="relative z-10 grid size-12 place-items-center rounded-full border border-border bg-background text-sm font-semibold text-cyan-300">
                   {number}
                 </span>
@@ -739,7 +739,7 @@ function HomePage() {
                 { v: 98.5, s: "%", l: "Positive rating" },
                 { v: 3.8, s: "x", l: "Peak ROAS" },
               ].map((m) => (
-                <div key={m.l} className="bg-background p-6 sm:p-8">
+                <div key={m.l} className="stat-card bg-background p-6 sm:p-8">
                   <p className="text-3xl font-light sm:text-4xl">
                     <CountUp value={m.v} prefix={m.p} suffix={m.s} />
                   </p>
@@ -751,7 +751,7 @@ function HomePage() {
         </section>
 
         <section className="border-t border-border bg-slate-950/90 py-24 text-white lg:py-32">
-          <div className="mx-auto grid max-w-7xl gap-8 px-5 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+          <div className="surface-3d mx-auto grid max-w-7xl gap-8 rounded-[32px] border border-cyan-400/15 bg-white/5 px-5 py-8 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
             <div className="rounded-[28px] border border-cyan-400/20 bg-white/5 p-8 shadow-[0_18px_60px_rgba(0,178,238,0.08)] backdrop-blur-sm">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">
                 Official Company Information
@@ -787,7 +787,7 @@ function HomePage() {
                 { icon: Mail, label: "Contact Email", value: "info@globaldealzllc.site" },
                 { icon: Headphones, label: "Support Phone", value: "+1 (901) 443-2051" },
               ].map(({ icon: Icon, label, value }) => (
-                <div key={label} className="rounded-[22px] border border-cyan-400/15 bg-white/5 p-5">
+                <div key={label} className="tilt-card rounded-[22px] border border-cyan-400/15 bg-white/5 p-5">
                   <div className="flex items-center gap-3 text-cyan-300">
                     <Icon className="size-4" />
                     <span className="text-[10px] uppercase tracking-[0.18em]">{label}</span>
@@ -826,7 +826,7 @@ function HomePage() {
               </div>
             </div>
 
-            <div className="rounded-[28px] border border-border bg-card p-6 shadow-xl sm:p-9">
+            <div className="surface-3d rounded-[28px] border border-border bg-card p-6 shadow-xl sm:p-9">
               <ConsultationForm />
             </div>
           </div>
