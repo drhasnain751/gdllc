@@ -266,49 +266,85 @@ function CountUp({
 }) {
   const [shown, setShown] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
-
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
-    const prefersReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    if (prefersReduced) {
+    const prefersReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReduced || typeof window === "undefined") {
       setShown(value);
       return;
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) return;
-        const start = performance.now();
-        const duration = 1200;
-        const tick = (now: number) => {
-          const progress = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          setShown(value * eased);
-          if (progress < 1) requestAnimationFrame(tick);
-          else setShown(value);
-        };
-        requestAnimationFrame(tick);
+    let rafId: number | null = null;
+    let started = false;
+    const duration = 1400;
+
+    const animate = (startTime: number) => {
+      const step = (now: number) => {
+        const progress = Math.min((now - startTime) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        setShown(value * eased);
+
+        if (progress < 1) {
+          rafId = requestAnimationFrame(step);
+        } else {
+          setShown(value);
+          rafId = null;
+        }
+      };
+      rafId = requestAnimationFrame(step);
+    };
+
+    const startIfVisible = () => {
+      if (started) return;
+      started = true;
+      animate(performance.now());
+    };
+
+    if (typeof IntersectionObserver !== "undefined") {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            startIfVisible();
+            observer.disconnect();
+          }
+        },
+        { threshold: 0.2, rootMargin: "0px 0px -10% 0px" },
+      );
+
+      observer.observe(node);
+
+      const fallback = window.setTimeout(() => {
+        startIfVisible();
         observer.disconnect();
-      },
-      { threshold: 0.4 },
-    );
+      }, 600);
 
-    observer.observe(node);
+      return () => {
+        observer.disconnect();
+        if (rafId) cancelAnimationFrame(rafId);
+        window.clearTimeout(fallback);
+      };
+    }
 
-    // safety: ensure final value after 3s in case observer doesn't fire
-    const safety = setTimeout(() => setShown(value), 3000);
+    // No IntersectionObserver: start immediately
+    startIfVisible();
+
     return () => {
-      observer.disconnect();
-      clearTimeout(safety);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, [value]);
+
+  const display = Number.isInteger(value) ? Math.round(shown) : Number(shown).toFixed(1);
 
   return (
     <span ref={ref} aria-label={`${prefix}${value}${suffix}`}>
       {prefix}
-      {Number.isInteger(value) ? Math.round(shown) : shown.toFixed(1)}
+      {display}
       {suffix}
     </span>
   );
@@ -547,6 +583,136 @@ function Field({
   );
 }
 
+function AudienceCard({
+  icon: Icon,
+  label,
+  title,
+  copy,
+  items,
+  type,
+}: {
+  icon: typeof Building2;
+  label: string;
+  title: string;
+  copy: string;
+  items: string[];
+  type: "operators" | "partners";
+}) {
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+  const handlePointerMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const px = (event.clientX - rect.left) / rect.width;
+    const py = (event.clientY - rect.top) / rect.height;
+
+    setTilt({
+      x: (0.5 - py) * 10,
+      y: (px - 0.5) * 10,
+    });
+  };
+
+  const depthStyle = (d: number) => ({
+    transform: `translateZ(${d}px) rotateX(${tilt.x * 0.6}deg) rotateY(${tilt.y * 0.6}deg)`,
+    transition: "transform 160ms linear",
+  });
+
+  return (
+    <article
+      className="audience-card group"
+      onMouseMove={handlePointerMove}
+      onMouseLeave={() => setTilt({ x: 0, y: 0 })}
+      style={{
+        transform: `perspective(1400px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) translateY(0)`,
+      }}
+    >
+      <div className="audience-card__inner">
+        <div className="flex items-center gap-3 text-sm font-semibold text-accent-strong">
+          <span className="grid size-10 place-items-center rounded-xl bg-accent">
+            <Icon className="size-5" />
+          </span>
+          {label}
+        </div>
+
+        <div
+          className="audience-card__visual"
+          style={{ transform: `translateZ(0) rotateX(${tilt.x * 0.7}deg) rotateY(${tilt.y * 0.8}deg)` }}
+        >
+          <div className="audience-visual">
+            <div className="audience-visual__glow" style={depthStyle(6)} />
+            <div className="audience-visual__mesh" style={depthStyle(2)} />
+            <div className="audience-visual__beam" style={depthStyle(14)} />
+
+            {/* subtle background plate */}
+            <div className="audience-visual__plate" style={depthStyle(8)} />
+
+            {/* floating icon / badge */}
+            <div className="audience-visual__floaticon" style={depthStyle(90)} aria-hidden />
+
+            {type === "operators" ? (
+              <div className="operator-visual__stack">
+                <div className="operator-visual__ring" style={depthStyle(4)} />
+                <div className="operator-visual__orbit" style={depthStyle(20)} />
+                <div className="operator-visual__card operator-visual__card--listing" style={depthStyle(60)}>
+                  <span className="operator-visual__badge">Listing</span>
+                  <div className="operator-visual__stat">+18.4%</div>
+                  <div className="operator-visual__meta">Search</div>
+                </div>
+                <div className="operator-visual__card operator-visual__card--orders" style={depthStyle(78)}>
+                  <span className="operator-visual__badge">Orders</span>
+                  <div className="operator-visual__stat">1,842</div>
+                  <div className="operator-visual__meta">Today</div>
+                </div>
+                <div className="operator-visual__card operator-visual__card--support" style={depthStyle(40)}>
+                  <span className="operator-visual__badge">Support</span>
+                  <div className="operator-visual__stat">98.7%</div>
+                  <div className="operator-visual__meta">Fulfillment</div>
+                </div>
+              </div>
+            ) : (
+              <div className="partner-visual__stack">
+                <div className="partner-visual__flow">
+                  <div className="partner-visual__line partner-visual__line--1" style={depthStyle(38)} />
+                  <div className="partner-visual__line partner-visual__line--2" style={depthStyle(38)} />
+                  <div className="partner-visual__line partner-visual__line--3" style={depthStyle(24)} />
+                </div>
+                <div className="partner-visual__card partner-visual__card--capital" style={depthStyle(52)}>
+                  <span className="partner-visual__badge">Capital</span>
+                  <div className="partner-visual__stat">$4.2M</div>
+                  <div className="partner-visual__meta">Committed</div>
+                </div>
+                <div className="partner-visual__card partner-visual__card--ops" style={depthStyle(78)}>
+                  <span className="partner-visual__badge">Ops</span>
+                  <div className="partner-visual__stat">3 hubs</div>
+                  <div className="partner-visual__meta">Active</div>
+                </div>
+                <div className="partner-visual__card partner-visual__card--reporting" style={depthStyle(38)}>
+                  <span className="partner-visual__badge">Reporting</span>
+                  <div className="partner-visual__stat">92.8%</div>
+                  <div className="partner-visual__meta">Visibility</div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div>
+          <h3 className="mt-1 text-3xl font-light">{title}</h3>
+          <p className="mt-4 text-sm leading-7 text-muted-foreground">{copy}</p>
+        </div>
+
+        <div className="mt-1 grid gap-3">
+          {items.map((item) => (
+            <span key={item} className="flex items-center gap-2 border-t border-border pt-3 text-sm text-foreground/85">
+              <Check className="size-4 text-accent-strong" />
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+    </article>
+  );
+}
+
 function HomePage() {
   const calendlyUrl = getCalendlyUrl();
 
@@ -644,6 +810,7 @@ function HomePage() {
               title="Stay focused on scale."
               copy="We bring structure to product discovery, sourcing coordination, marketplace execution, and operational support so your team can focus on growth."
               items={["Marketplace operations", "Search-led listings", "Customer experience"]}
+              type="operators"
             />
             <AudienceCard
               icon={Handshake}
@@ -651,6 +818,7 @@ function HomePage() {
               title="Put the right infrastructure behind the model."
               copy="Launch globally structured commercial relationships with a clearer foundation for entity setup, fulfillment, and operational reporting."
               items={["Aligned commercial models", "Operating infrastructure", "Transparent reporting"]}
+              type="partners"
             />
           </div>
         </section>
@@ -851,39 +1019,5 @@ function HomePage() {
       </main>
       <SiteFooter />
     </div>
-  );
-}
-
-function AudienceCard({
-  icon: Icon,
-  label,
-  title,
-  copy,
-  items,
-}: {
-  icon: typeof Building2;
-  label: string;
-  title: string;
-  copy: string;
-  items: string[];
-}) {
-  return (
-    <article className="rounded-[28px] border border-border bg-card p-7 shadow-sm sm:p-9">
-      <div className="flex items-center gap-3 text-sm font-semibold text-accent-strong">
-        <span className="grid size-10 place-items-center rounded-xl bg-accent">
-          <Icon className="size-5" />
-        </span>
-        {label}
-      </div>
-      <h3 className="mt-10 text-3xl font-light">{title}</h3>
-      <div className="mt-8 grid gap-3">
-        {items.map((item) => (
-          <span key={item} className="flex items-center gap-2 border-t border-border pt-3 text-sm">
-            <Check className="size-4 text-accent-strong" />
-            {item}
-          </span>
-        ))}
-      </div>
-    </article>
   );
 }
