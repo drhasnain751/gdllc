@@ -88,8 +88,8 @@ function SceneInner({ reducedMotion }: { reducedMotion: boolean }) {
         <meshStandardMaterial color="#071a2f" metalness={0.3} roughness={0.85} />
       </mesh>
 
-      <Text position={[0, 2.05, -0.7]} fontSize={0.2} color="#dfeaf8" anchorX="center" anchorY="middle">
-        Demo Dashboard — illustrative data
+      <Text position={[0, 2.05, -0.7]} fontSize={0.2} color="#f1f6fb" anchorX="center" anchorY="middle">
+        Illustrative Dashboard — Demo Data
       </Text>
     </>
   );

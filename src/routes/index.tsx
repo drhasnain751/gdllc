@@ -163,6 +163,9 @@ function DashboardMockup() {
       onMouseMove={handlePointerMove}
       onMouseLeave={() => setPointer({ x: 0, y: 0 })}
     >
+      <div className="absolute -top-3 left-6 z-20 rounded-full bg-white/6 px-3 py-1 text-[11px] font-medium text-white/90 backdrop-blur-sm">
+        Illustrative Dashboard — Demo Data
+      </div>
       <div className="hero-orb hero-orb-1" />
       <div className="hero-orb hero-orb-2" />
       <div className="hero-orb hero-orb-3" />
@@ -267,25 +270,39 @@ function CountUp({
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
+    const prefersReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReduced) {
+      setShown(value);
+      return;
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry?.isIntersecting) return;
         const start = performance.now();
+        const duration = 1200;
         const tick = (now: number) => {
-          const progress = Math.min((now - start) / 1400, 1);
+          const progress = Math.min((now - start) / duration, 1);
           const eased = 1 - Math.pow(1 - progress, 3);
           setShown(value * eased);
           if (progress < 1) requestAnimationFrame(tick);
+          else setShown(value);
         };
         requestAnimationFrame(tick);
         observer.disconnect();
       },
-      { threshold: 0.5 },
+      { threshold: 0.4 },
     );
 
     observer.observe(node);
-    return () => observer.disconnect();
+
+    // safety: ensure final value after 3s in case observer doesn't fire
+    const safety = setTimeout(() => setShown(value), 3000);
+    return () => {
+      observer.disconnect();
+      clearTimeout(safety);
+    };
   }, [value]);
 
   return (
