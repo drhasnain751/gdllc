@@ -36,6 +36,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { consultationSchema, submitConsultation } from "@/lib/consultation.functions";
 import { GLOBALDEALZ, getCalendlyUrl } from "@/lib/site-info";
+import { Hero3D } from "@/components/hero3d/Hero3D";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,7 +45,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Scale global commerce with managed stores, verified US and UK infrastructure, payment gateways, warehousing, and strategic partnership models.",
+          "Scale global commerce with managed stores, multi-market infrastructure, payment gateways, warehousing, and strategic partnership models.",
       },
       {
         property: "og:title",
@@ -272,8 +273,9 @@ function CountUp({
         if (!entry?.isIntersecting) return;
         const start = performance.now();
         const tick = (now: number) => {
-          const progress = Math.min((now - start) / 1200, 1);
-          setShown(value * (1 - Math.pow(1 - progress, 3)));
+          const progress = Math.min((now - start) / 1400, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          setShown(value * eased);
           if (progress < 1) requestAnimationFrame(tick);
         };
         requestAnimationFrame(tick);
@@ -287,7 +289,7 @@ function CountUp({
   }, [value]);
 
   return (
-    <span ref={ref}>
+    <span ref={ref} aria-label={`${prefix}${value}${suffix}`}>
       {prefix}
       {Number.isInteger(value) ? Math.round(shown) : shown.toFixed(1)}
       {suffix}
@@ -296,7 +298,7 @@ function CountUp({
 }
 
 function WorldMap() {
-  const points = [
+  const markets = [
     { x: 155, y: 122, label: "United States" },
     { x: 355, y: 88, label: "United Kingdom" },
     { x: 387, y: 105, label: "Germany" },
@@ -305,74 +307,47 @@ function WorldMap() {
 
   return (
     <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/5 p-4 sm:p-8">
-      <svg
-        viewBox="0 0 800 360"
-        className="w-full"
-        role="img"
-        aria-label="Warehouse network map with locations in the United States, United Kingdom, Germany, and Australia"
-      >
-        <title>Global fulfillment network</title>
-        <desc>
-          Active warehouse and operating locations across the United States, United Kingdom,
-          Germany, and Australia.
-        </desc>
-        <defs>
-          <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1.4" fill="currentColor" />
-          </pattern>
-          <mask id="world">
-            <path
-              fill="currentColor"
-              d="M35 90l95-55 122 16 52 57-30 47-61 20-32 76-83-15-20-75-53-30zm282-34l67-27 79 22 36 49 61 17 38 70-56 40-65-14-29 75-57-18-12-89-54-54zm241 67l92-47 83 26 47 70-43 38-43-26-31 10-48-37zm57 105l90-15 57 45-31 57-92-16-38-40z"
-            />
-          </mask>
-        </defs>
-        <rect
-          width="800"
-          height="360"
-          fill="url(#dots)"
-          mask="url(#world)"
-          className="text-dark-panel-foreground/25"
-        />
-        {points.map((p) => (
-          <g
-            key={p.label}
-            className="group cursor-pointer"
-            tabIndex={0}
-            role="button"
-            aria-label={`${p.label} warehouse`}
-          >
-            <circle cx={p.x} cy={p.y} r="16" fill="var(--accent-strong)" className="marker-ring" />
-            <circle cx={p.x} cy={p.y} r="5" fill="var(--dark-panel-foreground)" />
-            <g className="opacity-0 transition-opacity group-hover:opacity-100 group-focus:opacity-100">
-              <rect
-                x={p.x - 54}
-                y={p.y - 42}
-                width="108"
-                height="27"
-                rx="7"
-                fill="var(--dark-panel-foreground)"
+      <div className="relative">
+        <svg
+          viewBox="0 0 800 360"
+          className="w-full"
+          role="img"
+          aria-label="Global network map with locations in the United States, United Kingdom, Germany, and Australia"
+        >
+          <title>Global fulfillment network</title>
+          <desc>Illustrative network connections across key commerce markets.</desc>
+          <defs>
+            <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="1.4" fill="currentColor" />
+            </pattern>
+            <mask id="world">
+              <path
+                fill="currentColor"
+                d="M35 90l95-55 122 16 52 57-30 47-61 20-32 76-83-15-20-75-53-30zm282-34l67-27 79 22 36 49 61 17 38 70-56 40-65-14-29 75-57-18-12-89-54-54zm241 67l92-47 83 26 47 70-43 38-43-26-31 10-48-37zm57 105l90-15 57 45-31 57-92-16-38-40z"
               />
-              <text
-                x={p.x}
-                y={p.y - 24}
-                textAnchor="middle"
-                fill="var(--dark-panel)"
-                fontSize="11"
-                fontWeight="600"
-              >
-                {p.label}
-              </text>
+            </mask>
+          </defs>
+          <rect width="800" height="360" fill="url(#dots)" mask="url(#world)" className="text-dark-panel-foreground/25" />
+          <path d="M155 122 C260 118, 310 96, 355 88 S396 98, 387 105 S520 156, 682 250" fill="none" stroke="rgba(56,189,248,0.55)" strokeWidth="2.5" strokeDasharray="6 8" />
+          {markets.map((p) => (
+            <g key={p.label} className="group cursor-pointer" tabIndex={0} role="button" aria-label={`${p.label} market` }>
+              <circle cx={p.x} cy={p.y} r="16" fill="rgba(56,189,248,0.22)" className="marker-ring" />
+              <circle cx={p.x} cy={p.y} r="5" fill="var(--dark-panel-foreground)" />
+              <circle cx={p.x} cy={p.y} r="18" fill="rgba(56,189,248,0.08)" className="group-hover:opacity-100 opacity-0 transition-opacity" />
+              <g className="opacity-0 transition-opacity group-hover:opacity-100 group-focus:opacity-100">
+                <rect x={p.x - 54} y={p.y - 42} width="108" height="27" rx="7" fill="var(--dark-panel-foreground)" />
+                <text x={p.x} y={p.y - 24} textAnchor="middle" fill="var(--dark-panel)" fontSize="11" fontWeight="600">{p.label}</text>
+              </g>
             </g>
-          </g>
-        ))}
-      </svg>
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        {points.map((p) => (
-          <div key={p.label} className="flex items-center gap-2 text-xs text-white/65">
+          ))}
+        </svg>
+      </div>
+      <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
+        {markets.map((p) => (
+          <button key={p.label} type="button" className="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-2 py-2 text-left text-xs text-white/70 transition hover:border-cyan-400/30 hover:text-white">
             <span className="size-1.5 rounded-full bg-accent-strong" />
             {p.label}
-          </div>
+          </button>
         ))}
       </div>
     </div>
@@ -391,7 +366,9 @@ function ConsultationForm() {
     const form = new FormData(formElement);
     const payload = {
       name: String(form.get("name") ?? ""),
+      company: String(form.get("company") ?? ""),
       email: String(form.get("email") ?? ""),
+      phone: String(form.get("phone") ?? ""),
       serviceNeeded,
       message: String(form.get("message") ?? ""),
       website: String(form.get("website") ?? ""),
@@ -449,12 +426,32 @@ function ConsultationForm() {
             className="h-12 rounded-xl bg-background"
           />
         </Field>
+        <Field label="Company" error={errors["company"]}>
+          <Input
+            name="company"
+            placeholder="Company name"
+            maxLength={200}
+            className="h-12 rounded-xl bg-background"
+          />
+        </Field>
+      </div>
+
+      <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Email" error={errors["email"]}>
           <Input
             name="email"
             type="email"
             placeholder="you@company.com"
             maxLength={255}
+            className="h-12 rounded-xl bg-background"
+          />
+        </Field>
+        <Field label="Phone" error={errors["phone"]}>
+          <Input
+            name="phone"
+            type="tel"
+            placeholder="(555) 123-4567"
+            maxLength={40}
             className="h-12 rounded-xl bg-background"
           />
         </Field>
@@ -732,6 +729,9 @@ function HomePage() {
 
         <section id="results" className="scroll-mt-20 border-y border-border bg-muted/45 py-20">
           <div className="mx-auto max-w-7xl px-5 lg:px-8">
+            <div className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+              Illustrative performance snapshot
+            </div>
             <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[28px] border border-border bg-border lg:grid-cols-4">
               {[
                 { v: 2.5, p: "$", s: "M+", l: "Sales processed" },

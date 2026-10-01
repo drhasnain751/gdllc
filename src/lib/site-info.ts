@@ -11,7 +11,7 @@ export const GLOBALDEALZ = {
 } as const;
 
 export function getCalendlyUrl() {
-  const envUrl = import.meta.env.VITE_CALENDLY_URL;
+  const envUrl = import.meta.env["VITE_CALENDLY_URL"];
   return typeof envUrl === "string" && envUrl.trim()
     ? envUrl.trim()
     : "mailto:info@globaldealzllc.site";

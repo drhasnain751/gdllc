@@ -11,6 +11,7 @@ const navigation = [
   ["Joint Ventures", "/joint-ventures"],
   ["Case Studies", "/case-studies"],
   ["Pricing", "/pricing"],
+  ["Contact", "/contact"],
 ] as const;
 
 export function BrandMark({ onDark = false }: { onDark?: boolean | undefined }) {

@@ -10,29 +10,35 @@ export type Database = {
     Tables: {
       consultation_leads: {
         Row: {
+          company: string;
           created_at: string;
           email: string;
           id: string;
           message: string;
           name: string;
+          phone: string;
           service_needed: string;
           status: string;
         };
         Insert: {
+          company: string;
           created_at?: string;
           email: string;
           id?: string;
           message: string;
           name: string;
+          phone: string;
           service_needed: string;
           status?: string;
         };
         Update: {
+          company?: string;
           created_at?: string;
           email?: string;
           id?: string;
           message?: string;
           name?: string;
+          phone?: string;
           service_needed?: string;
           status?: string;
         };

@@ -26,32 +26,38 @@ export const Route = createFileRoute("/pricing")({
   component: PricingPage,
 });
 
-const offers = [
+const pricingTiers = [
   {
-    name: "Managed Commerce",
-    copy: "For owners who want an operating team across store setup and daily execution.",
-    includes: [
-      "Product and catalog workflows",
-      "Listings and optimization",
-      "Customer and operational support",
+    name: "Core Infrastructure",
+    summary: "For businesses that need the right foundation before operating across marketplaces and regions.",
+    items: [
+      "Entity and structure planning",
+      "Market readiness and operational setup",
+      "Platform and payment infrastructure alignment",
+      "Implementation planning and scope review",
     ],
   },
   {
-    name: "Infrastructure",
-    copy: "For operators who need a compliant international commerce foundation.",
-    includes: ["US LLC or UK LTD coordination", "Payment readiness", "Remote-access setup"],
+    name: "Managed Operations & Sourcing",
+    summary: "For teams that need execution support across listings, catalog, sourcing, and ongoing operations.",
+    items: [
+      "Catalog and marketplace operational support",
+      "Sourcing coordination and product workflows",
+      "Inventory and fulfillment planning support",
+      "Ongoing operational oversight and reporting",
+    ],
   },
   {
-    name: "Warehousing & 3PL",
-    copy: "For brands positioning inventory closer to customers in priority markets.",
-    includes: ["Warehouse matching", "Inventory coordination", "Fulfillment workflow planning"],
+    name: "Joint Venture Strategic Growth",
+    summary: "For qualified partners combining capital, audience, or operational capability with GlobalDealz infrastructure.",
+    items: [
+      "Partnership fit assessment",
+      "Commercial model and role alignment",
+      "Launch planning and operating coordination",
+      "Execution support with clear reporting structure",
+    ],
   },
-  {
-    name: "Joint Venture",
-    copy: "For qualified partners combining capital, distribution, or audience with our operations.",
-    includes: ["Opportunity assessment", "Partnership structuring", "Operations and reporting"],
-  },
-];
+] as const;
 
 function PricingPage() {
   return (
@@ -62,89 +68,53 @@ function PricingPage() {
           <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
             <p className="flex items-center gap-2 text-sm font-semibold uppercase text-accent-strong">
               <CircleDollarSign className="size-5" />
-              Custom pricing
+              Pricing
             </p>
             <h1 className="mt-5 max-w-4xl text-5xl font-light leading-[1.08] sm:text-6xl lg:text-7xl">
-              A proposal shaped around the work—not a generic package.
+              Three paths to support your next phase of growth.
             </h1>
             <p className="mt-7 max-w-2xl text-base leading-8 text-muted-foreground sm:text-lg">
-              Your quote reflects the markets, channels, infrastructure, inventory footprint, and
-              level of operating support involved.
+              Scope is tailored to the market, operating model, and level of support required. No
+              fixed-price package is implied.
             </p>
             <Button asChild size="lg" className="mt-9">
-              <Link to="/" hash="consultation">
-                Request a proposal
-                <ArrowRight />
-              </Link>
+              <Link to="/contact">Book a Consultation</Link>
             </Button>
           </div>
         </section>
         <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
-          <div className="grid gap-5 md:grid-cols-2">
-            {offers.map((offer) => (
+          <div className="grid gap-5 lg:grid-cols-3">
+            {pricingTiers.map((tier) => (
               <article
-                key={offer.name}
+                key={tier.name}
                 className="rounded-3xl border border-border bg-card p-7 shadow-sm sm:p-9"
               >
-                <p className="text-xs font-semibold uppercase text-accent-strong">Custom quote</p>
-                <h2 className="mt-4 text-3xl font-light">{offer.name}</h2>
-                <p className="mt-4 text-sm leading-7 text-muted-foreground">{offer.copy}</p>
+                <p className="text-xs font-semibold uppercase text-accent-strong">Service tier</p>
+                <h2 className="mt-4 text-3xl font-light">{tier.name}</h2>
+                <p className="mt-4 text-sm leading-7 text-muted-foreground">{tier.summary}</p>
                 <div className="mt-8 space-y-3">
-                  {offer.includes.map((item) => (
+                  {tier.items.map((item) => (
                     <p key={item} className="flex items-start gap-2 text-sm">
                       <Check className="mt-0.5 size-4 shrink-0 text-accent-strong" />
                       {item}
                     </p>
                   ))}
                 </div>
-                <Button asChild variant="outline" className="mt-9">
-                  <Link to="/" hash="consultation">
-                    Discuss this service
-                    <ArrowRight />
-                  </Link>
+                <Button asChild variant="outline" className="mt-9 w-full">
+                  <Link to="/contact">Discuss this tier</Link>
                 </Button>
               </article>
             ))}
           </div>
         </section>
         <section className="border-y border-border bg-muted/45 py-20">
-          <div className="mx-auto grid max-w-7xl gap-10 px-5 md:grid-cols-[.8fr_1.2fr] lg:px-8">
-            <div>
-              <p className="text-sm font-semibold uppercase text-accent-strong">
-                How quotes are built
-              </p>
-              <h2 className="mt-4 text-4xl font-light">The variables that shape your proposal.</h2>
-            </div>
-            <div className="grid gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2">
-              {[
-                "Number of stores and marketplaces",
-                "Countries and entity requirements",
-                "Catalog size and operating volume",
-                "Warehouse regions and inventory flow",
-                "Required setup and integrations",
-                "Partnership scope and responsibilities",
-              ].map((item, index) => (
-                <div key={item} className="bg-background p-6">
-                  <span className="text-xs font-semibold text-accent-strong">0{index + 1}</span>
-                  <p className="mt-3 text-sm">{item}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-        <section className="py-20 text-center lg:py-28">
-          <div className="mx-auto max-w-3xl px-5">
-            <h2 className="text-4xl font-light">Get a clear scope before you commit.</h2>
+          <div className="mx-auto max-w-4xl px-5 text-center lg:px-8">
+            <p className="text-sm font-semibold uppercase text-accent-strong">Scope-based guidance</p>
+            <h2 className="mt-4 text-4xl font-light">The right model depends on the operating need.</h2>
             <p className="mt-5 text-sm leading-7 text-muted-foreground">
-              A consultation helps us understand the work, assess fit, and prepare a tailored
-              proposal without inventing a one-size-fits-all price.
+              A consultation helps determine whether your requirement fits infrastructure, managed
+              operations, or a strategic partnership model.
             </p>
-            <Button asChild size="lg" className="mt-8">
-              <Link to="/" hash="consultation">
-                Book a Consultation
-                <ArrowRight />
-              </Link>
-            </Button>
           </div>
         </section>
       </main>
