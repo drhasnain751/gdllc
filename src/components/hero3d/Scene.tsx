@@ -70,12 +70,13 @@ function SceneInner({ reducedMotion }: { reducedMotion: boolean }) {
   return (
     <>
       <color attach="background" args={["#061633"]} />
-      <fog attach="fog" args={["#061633", 7, 14]} />
-      <PerspectiveCamera makeDefault position={[0, 0.72, 6.2]} fov={38} />
-      <ambientLight intensity={0.85} />
-      <directionalLight position={[4, 5, 4]} intensity={1.65} color="#00B2EE" />
-      <directionalLight position={[-5, 1, -3]} intensity={0.7} color="#d7f5ff" />
-      <pointLight position={[0, 0, 3]} intensity={0.8} color="#00B2EE" />
+      <fog attach="fog" args={["#061633", 4, 12]} />
+      <PerspectiveCamera makeDefault position={[0, 0.72, 6.2]} fov={36} />
+      <ambientLight intensity={0.72} />
+      <hemisphereLight skyColor="#0b2340" groundColor="#00111a" intensity={0.45} />
+      <directionalLight position={[4, 5, 4]} intensity={1.2} color="#00B2EE" />
+      <directionalLight position={[-5, 1, -3]} intensity={0.5} color="#d7f5ff" />
+      <pointLight position={[0, 0, 3]} intensity={0.6} color="#00B2EE" />
 
       <group ref={groupRef} scale={panelSize}>
         <Console />

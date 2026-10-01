@@ -33,7 +33,7 @@ export function BusinessPage({
       <SiteHeader />
       <main className="pt-20">
         <section className="grid-fade border-b border-border">
-          <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
+          <div className="depth-panel mx-auto max-w-7xl rounded-[32px] border border-border/80 px-5 py-20 shadow-[0_30px_80px_rgba(15,23,42,0.14)] lg:px-8 lg:py-28">
             <p className="text-sm font-semibold uppercase text-accent-strong">{eyebrow}</p>
             <h1 className="mt-5 max-w-4xl text-5xl font-light leading-[1.08] sm:text-6xl lg:text-7xl">
               {title}
@@ -42,13 +42,13 @@ export function BusinessPage({
               {intro}
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <Button asChild size="lg">
+              <Button asChild size="lg" className="rounded-full">
                 <Link to="/" hash="consultation">
                   Book a Consultation
                   <ArrowRight />
                 </Link>
               </Button>
-              <Button asChild size="lg" variant="outline">
+              <Button asChild size="lg" variant="outline" className="rounded-full">
                 <Link to="/pricing">View Pricing</Link>
               </Button>
             </div>
@@ -59,7 +59,7 @@ export function BusinessPage({
           <div className="grid gap-5 md:grid-cols-2">
             {features.map(
               ({ icon: Icon, eyebrow: featureEyebrow, title: featureTitle, copy, points }) => (
-                <article key={featureTitle} className="border-t border-border py-8 md:px-6">
+                <article key={featureTitle} className="depth-card rounded-[28px] border border-border bg-card/80 p-7 shadow-sm md:px-6 md:py-8">
                   <div className="flex items-center gap-3 text-xs font-semibold uppercase text-accent-strong">
                     <Icon className="size-5" />
                     {featureEyebrow}
@@ -68,7 +68,7 @@ export function BusinessPage({
                   <p className="mt-4 max-w-xl text-sm leading-7 text-muted-foreground">{copy}</p>
                   <div className="mt-7 grid gap-3">
                     {points.map((point) => (
-                      <span key={point} className="flex items-start gap-2 text-sm">
+                      <span key={point} className="flex items-start gap-2 border-t border-border pt-3 text-sm">
                         <Check className="mt-0.5 size-4 shrink-0 text-accent-strong" />
                         {point}
                       </span>
@@ -81,14 +81,14 @@ export function BusinessPage({
         </section>
 
         <section className="bg-dark-panel py-20 text-dark-panel-foreground">
-          <div className="mx-auto flex max-w-5xl flex-col items-start justify-between gap-8 px-5 md:flex-row md:items-center lg:px-8">
+          <div className="depth-cta mx-auto flex max-w-5xl flex-col items-start justify-between gap-8 rounded-[28px] border border-cyan-400/15 px-5 py-8 md:flex-row md:items-center lg:px-8">
             <div>
               <h2 className="max-w-2xl text-3xl font-light sm:text-4xl">{closingTitle}</h2>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-dark-panel-foreground/65">
                 {closingCopy}
               </p>
             </div>
-            <Button asChild size="lg" className="shrink-0">
+            <Button asChild size="lg" className="shrink-0 rounded-full">
               <Link to="/" hash="consultation">
                 Start a conversation
                 <ArrowRight />

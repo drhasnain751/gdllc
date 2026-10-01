@@ -84,10 +84,14 @@ function PricingPage() {
         </section>
         <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
           <div className="grid gap-5 lg:grid-cols-3">
-            {pricingTiers.map((tier) => (
+            {pricingTiers.map((tier, index) => (
               <article
                 key={tier.name}
-                className="rounded-3xl border border-border bg-card p-7 shadow-sm sm:p-9"
+                className={`depth-card rounded-[30px] border p-7 shadow-sm sm:p-9 ${
+                  index === 1
+                    ? "border-cyan-400/25 bg-cyan-500/5"
+                    : "border-border bg-card"
+                }`}
               >
                 <p className="text-xs font-semibold uppercase text-accent-strong">Service tier</p>
                 <h2 className="mt-4 text-3xl font-light">{tier.name}</h2>
@@ -100,7 +104,7 @@ function PricingPage() {
                     </p>
                   ))}
                 </div>
-                <Button asChild variant="outline" className="mt-9 w-full">
+                <Button asChild variant={index === 1 ? "default" : "outline"} className="mt-9 w-full rounded-full">
                   <Link to="/contact">Discuss this tier</Link>
                 </Button>
               </article>

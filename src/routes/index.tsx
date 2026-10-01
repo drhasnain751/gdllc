@@ -585,7 +585,7 @@ function HomePage() {
               </div>
             </div>
 
-            <DashboardMockup />
+            <Hero3D fallback={<DashboardMockup />} />
           </div>
         </section>
 
@@ -739,7 +739,7 @@ function HomePage() {
                 { v: 98.5, s: "%", l: "Positive rating" },
                 { v: 3.8, s: "x", l: "Peak ROAS" },
               ].map((m) => (
-                <div key={m.l} className="stat-card bg-background p-6 sm:p-8">
+                <div key={m.l} className="depth-metric bg-background p-6 sm:p-8">
                   <p className="text-3xl font-light sm:text-4xl">
                     <CountUp value={m.v} prefix={m.p} suffix={m.s} />
                   </p>
@@ -751,7 +751,7 @@ function HomePage() {
         </section>
 
         <section className="border-t border-border bg-slate-950/90 py-24 text-white lg:py-32">
-          <div className="surface-3d mx-auto grid max-w-7xl gap-8 rounded-[32px] border border-cyan-400/15 bg-white/5 px-5 py-8 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+          <div className="depth-panel mx-auto grid max-w-7xl gap-8 rounded-[32px] border border-cyan-400/15 bg-white/5 px-5 py-8 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
             <div className="rounded-[28px] border border-cyan-400/20 bg-white/5 p-8 shadow-[0_18px_60px_rgba(0,178,238,0.08)] backdrop-blur-sm">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">
                 Official Company Information
@@ -787,7 +787,7 @@ function HomePage() {
                 { icon: Mail, label: "Contact Email", value: "info@globaldealzllc.site" },
                 { icon: Headphones, label: "Support Phone", value: "+1 (901) 443-2051" },
               ].map(({ icon: Icon, label, value }) => (
-                <div key={label} className="tilt-card rounded-[22px] border border-cyan-400/15 bg-white/5 p-5">
+                <div key={label} className="depth-card rounded-[22px] border border-cyan-400/15 bg-white/5 p-5">
                   <div className="flex items-center gap-3 text-cyan-300">
                     <Icon className="size-4" />
                     <span className="text-[10px] uppercase tracking-[0.18em]">{label}</span>
@@ -826,7 +826,7 @@ function HomePage() {
               </div>
             </div>
 
-            <div className="surface-3d rounded-[28px] border border-border bg-card p-6 shadow-xl sm:p-9">
+            <div className="depth-panel rounded-[28px] border border-border bg-card p-6 shadow-xl sm:p-9">
               <ConsultationForm />
             </div>
           </div>
