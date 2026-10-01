@@ -1,17 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalPage } from "@/components/legal-page";
+
 export const Route = createFileRoute("/refund-policy")({
   head: () => ({
     meta: [
       { title: "Refund & Cancellation Policy | GlobalDealzLLC" },
       {
         name: "description",
-        content: "Preliminary refund and cancellation terms for GlobalDealzLLC engagements.",
+        content: "Refund and cancellation terms for GlobalDealzLLC engagements and consultations.",
       },
       { property: "og:title", content: "Refund & Cancellation Policy | GlobalDealzLLC" },
       {
         property: "og:description",
-        content: "Preliminary refund and cancellation terms for GlobalDealzLLC engagements.",
+        content: "Refund and cancellation terms for GlobalDealzLLC engagements and consultations.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
@@ -20,31 +21,43 @@ export const Route = createFileRoute("/refund-policy")({
   }),
   component: RefundPolicy,
 });
+
 function RefundPolicy() {
   return (
     <LegalPage
       title="Refund & Cancellation Policy"
-      intro="Engagement-specific refund and cancellation terms are confirmed before work begins."
+      intro="This Refund & Cancellation Policy is effective January 1, 2026 and applies to consultation requests and any paid service arrangement entered into with GlobalDealz LLC."
     >
       <section>
-        <h2>Consultations</h2>
+        <h2>Pre-Filing Cancellation</h2>
         <p>
-          Submitting a consultation request is free and does not create a paid engagement or
-          financial obligation.
+          If a service is canceled before official filing, registration, or external action is
+          initiated, the client may be eligible for a refund of amounts paid, less applicable
+          processor or third-party fees, provided that any incurred external expenses are not yet
+          processed or committed.
         </p>
       </section>
       <section>
-        <h2>Paid services</h2>
+        <h2>Post-Filing and External Costs</h2>
         <p>
-          Any refunds, cancellation windows, non-refundable setup costs, and delivery milestones
-          will be stated in the signed service agreement.
+          Once filing, registered-agent, domain, third-party service, or other external costs have
+          been initiated, those costs are generally non-refundable. We will communicate clearly when
+          such expenses are incurred so the client understands the status of the engagement.
         </p>
       </section>
       <section>
-        <h2>Requesting a cancellation</h2>
+        <h2>Monthly Management Services</h2>
         <p>
-          Contact info@globaldealzllc.site with your agreement details. We will respond according to
-          the terms applicable to your engagement.
+          Monthly management services require 14 days written notice before the next billing cycle.
+          No partial-month refunds are provided for active services.
+        </p>
+      </section>
+      <section>
+        <h2>Contact</h2>
+        <p>
+          Cancellation or refund requests should be sent to info@globaldealzllc.site or +1 (901)
+          443-2051. Final terms will be governed by the signed service agreement governing the
+          relevant engagement.
         </p>
       </section>
     </LegalPage>

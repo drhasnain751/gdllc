@@ -10,6 +10,7 @@ import {
   Handshake,
   Headphones,
   Landmark,
+  Mail,
   MessageSquareText,
   PackageCheck,
   ShieldCheck,
@@ -75,125 +76,155 @@ const platforms = [
 const services = [
   {
     icon: Store,
-    title: "End-to-End Store Management",
-    copy: "From product discovery to listing performance, customer support, and daily operations—managed as one high-velocity system.",
-    tag: "OPERATIONS",
+    title: "Product Research & Market Intelligence",
+    copy:
+      "Evaluate demand, competition, margins, and channel fit before launching into a new market or product category.",
+    tag: "INTELLIGENCE",
     to: "/services" as const,
   },
   {
     icon: Landmark,
-    title: "Corporate Infrastructure & Banking",
-    copy: "US LLC and UK LTD structures, verified payment rails, and secure remote access foundations built for international commerce.",
+    title: "Corporate Infrastructure & Banking Coordination",
+    copy:
+      "Coordinate entity setup, multi-market access, and payment infrastructure planning around business requirements.",
     tag: "FOUNDATION",
     to: "/infrastructure" as const,
   },
   {
     icon: Warehouse,
-    title: "Global Warehousing & 3PL",
-    copy: "Flexible inventory positioning and fulfillment across prime growth markets to reduce delay and improve customer experience.",
+    title: "Warehousing & Fulfillment Operations",
+    copy:
+      "Align inventory and fulfillment sequence across key growth markets to improve availability and reduce operational friction.",
     tag: "LOGISTICS",
     to: "/infrastructure" as const,
   },
   {
     icon: Handshake,
     title: "B2B Joint Venture Partnerships",
-    copy: "Aligned capital and operating models that pair your market access with our infrastructure and execution discipline.",
+    copy:
+      "Pair capital, audience, or operational capacity with GlobalDealz infrastructure and execution support in a defined model.",
     tag: "PARTNERSHIPS",
     to: "/joint-ventures" as const,
   },
 ];
 
 function DashboardMockup() {
+  const frameRef = useRef<HTMLDivElement | null>(null);
+  const [rotation, setRotation] = useState({ x: 18, y: -18, z: 0 });
+  const [scale, setScale] = useState(0.82);
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+
+    const handle = () => {
+      const rect = frame.getBoundingClientRect();
+      const viewport = window.innerHeight || 1;
+      const progress = Math.min(1, Math.max(0, (viewport - rect.top) / (viewport + rect.height)));
+
+      setRotation({
+        x: 20 - progress * 26,
+        y: -22 + progress * 28,
+        z: progress * 7,
+      });
+      setScale(0.82 + progress * 0.7);
+    };
+
+    handle();
+    window.addEventListener("scroll", handle, { passive: true });
+    window.addEventListener("resize", handle);
+    return () => {
+      window.removeEventListener("scroll", handle);
+      window.removeEventListener("resize", handle);
+    };
+  }, []);
+
+  const panelStyle = {
+    transform: `perspective(1200px) rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) rotateZ(${rotation.z}deg) scale(${scale})`,
+  };
+
   return (
-    <div
-      className="relative mx-auto w-full max-w-[540px] pb-8 pt-8"
-      aria-label="GlobalDealz sales performance dashboard illustration"
-    >
-      <div className="floating-panel relative overflow-hidden rounded-[28px] border border-border/80 bg-card/85 p-4 shadow-[0_40px_100px_rgba(15,31,59,0.18)] backdrop-blur-xl sm:p-6">
-        <div className="absolute inset-x-12 top-0 h-24 rounded-full bg-[radial-gradient(circle,_rgba(101,166,255,0.35),transparent_70%)] blur-3xl" />
-        <div className="relative">
-          <div className="mb-6 flex items-center justify-between">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                Portfolio overview
-              </p>
-              <p className="mt-2 text-3xl font-light text-foreground">$1.28M</p>
-            </div>
-            <span className="rounded-full bg-accent px-3 py-1 text-xs font-semibold text-accent-foreground">
-              +24.8%
-            </span>
-          </div>
-          <div className="rounded-2xl border border-border/80 bg-background/75 p-4">
-            <div className="mb-5 flex items-center justify-between text-xs text-muted-foreground">
-              <span>Net sales</span>
-              <span>Last 12 months</span>
-            </div>
-            <svg
-              viewBox="0 0 600 230"
-              className="h-auto w-full"
-              role="img"
-              aria-label="Upward sales chart"
-            >
-              {[40, 90, 140, 190].map((y) => (
-                <line
-                  key={y}
-                  x1="0"
-                  y1={y}
-                  x2="600"
-                  y2={y}
-                  stroke="currentColor"
-                  className="text-border"
-                />
-              ))}
-              <path
-                d="M0 190 C55 182,85 145,130 158 S210 116,260 130 S350 65,410 92 S505 43,600 30 L600 230 L0 230Z"
-                fill="color-mix(in oklab, var(--accent-strong) 16%, transparent)"
-              />
-              <path
-                d="M0 190 C55 182,85 145,130 158 S210 116,260 130 S350 65,410 92 S505 43,600 30"
-                fill="none"
-                stroke="var(--accent-strong)"
-                strokeWidth="4"
-                strokeLinecap="round"
-              />
-            </svg>
-          </div>
-          <div className="mt-4 grid grid-cols-3 gap-3">
-            {["6 live stores", "4 regions", "98.5% rating"].map((label) => (
-              <div
-                key={label}
-                className="rounded-xl border border-border bg-background/70 p-3 text-center text-[11px] text-muted-foreground sm:text-xs"
-              >
-                {label}
+    <div className="relative mx-auto w-full max-w-[620px] pt-4" ref={frameRef}>
+      <div className="pointer-events-none absolute inset-0 rounded-[32px] bg-[radial-gradient(circle_at_center,rgba(0,178,238,0.22),transparent_55%)] blur-3xl" />
+      <div className="relative" style={panelStyle}>
+        <div className="relative overflow-hidden rounded-[30px] border border-white/10 bg-[#091a32]/85 p-4 shadow-[0_40px_110px_rgba(0,178,238,0.18)] backdrop-blur-2xl sm:p-6">
+          <div className="absolute inset-x-10 top-0 h-20 rounded-full bg-[radial-gradient(circle,rgba(0,178,238,0.48),transparent_70%)] blur-3xl" />
+          <div className="relative">
+            <div className="mb-5 flex items-center justify-between">
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-slate-300/80">
+                  Portfolio overview
+                </p>
+                <p className="mt-2 text-3xl font-light text-white">$128,420</p>
               </div>
-            ))}
+              <span className="rounded-full bg-cyan-400/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.15em] text-cyan-300">
+                +18.4%
+              </span>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-slate-950/50 p-4">
+              <div className="mb-5 flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-slate-300/75">
+                <span>Net sales</span>
+                <span>Last 12 months</span>
+              </div>
+              <svg viewBox="0 0 600 220" className="h-auto w-full" role="img" aria-label="Sales chart">
+                {[30, 80, 130, 180].map((y) => (
+                  <line key={y} x1="0" y1={y} x2="600" y2={y} stroke="rgba(148,163,184,0.2)" />
+                ))}
+                <path
+                  d="M0 155 C50 150,90 118,130 126 S215 110,270 120 S355 78,420 96 S505 52,600 30 L600 220 L0 220Z"
+                  fill="rgba(0,178,238,0.12)"
+                />
+                <path
+                  d="M0 155 C50 150,90 118,130 126 S215 110,270 120 S355 78,420 96 S505 52,600 30"
+                  fill="none"
+                  stroke="#52d3ff"
+                  strokeWidth="4"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </div>
+
+            <div className="mt-4 grid grid-cols-3 gap-3 text-[11px] text-slate-300/80">
+              {[
+                { label: "Orders", value: "1,842" },
+                { label: "Inventory", value: "94.2%" },
+                { label: "Fulfillment", value: "98.7%" },
+              ].map((stat) => (
+                <div
+                  key={stat.label}
+                  className="rounded-xl border border-white/10 bg-slate-900/60 p-3 text-center"
+                >
+                  <p className="text-base font-semibold text-white">{stat.value}</p>
+                  <p className="mt-1 text-[10px] uppercase tracking-[0.14em] text-slate-300/70">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="absolute -left-4 top-14 z-20 w-40 -rotate-12 rounded-2xl border border-border/70 bg-card/90 p-4 shadow-2xl backdrop-blur-xl sm:-left-10">
-        <div className="flex items-center justify-between">
-          <span className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-            Payout
-          </span>
-          <CircleDollarSign className="size-4 text-accent-strong" />
+        <div className="absolute -left-2 top-20 w-40 -rotate-12 rounded-2xl border border-cyan-400/25 bg-slate-900/85 p-4 shadow-2xl backdrop-blur-xl sm:-left-6">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] uppercase tracking-[0.18em] text-slate-300/75">Payout</span>
+            <CircleDollarSign className="size-4 text-cyan-300" />
+          </div>
+          <p className="mt-4 text-xl font-semibold text-white">$42,850</p>
+          <p className="mt-1 text-[10px] text-slate-300/65">Arrives tomorrow</p>
         </div>
-        <p className="mt-4 text-xl font-semibold">$42,850</p>
-        <p className="mt-1 text-[10px] text-muted-foreground">Arrives tomorrow</p>
-      </div>
 
-      <div className="absolute -bottom-2 right-2 z-20 w-52 rotate-3 rounded-2xl border border-border/70 bg-primary p-4 text-primary-foreground shadow-2xl sm:-right-5">
-        <div className="flex justify-between">
-          <span className="text-[10px] uppercase tracking-[0.18em] text-primary-foreground/70">
-            GlobalDealz
-          </span>
-          <Sparkles className="size-4" />
-        </div>
-        <div className="mt-10 flex items-end justify-between">
-          <span className="font-mono text-sm">•••• 7842</span>
-          <span className="text-[10px] uppercase tracking-[0.18em] text-primary-foreground/70">
-            Virtual
-          </span>
+        <div className="absolute -bottom-2 right-2 w-52 rotate-3 rounded-2xl border border-cyan-400/30 bg-[#05152e] p-4 text-white shadow-2xl sm:-right-3">
+          <div className="flex justify-between">
+            <span className="text-[10px] uppercase tracking-[0.18em] text-slate-300/75">
+              GlobalDealz
+            </span>
+            <Sparkles className="size-4 text-cyan-300" />
+          </div>
+          <div className="mt-10 flex items-end justify-between">
+            <span className="font-mono text-sm">•••• 7842</span>
+            <span className="text-[10px] uppercase tracking-[0.18em] text-slate-300/70">Payment</span>
+          </div>
         </div>
       </div>
     </div>
@@ -489,62 +520,51 @@ function HomePage() {
     <div className="overflow-x-hidden bg-background text-foreground">
       <SiteHeader />
       <main>
-        <section
-          id="home"
-          className="grid-fade relative flex min-h-[760px] scroll-mt-20 items-center border-b border-border pt-28"
-        >
-          <div className="hero-glow absolute inset-0 bg-[radial-gradient(circle_at_70%_38%,color-mix(in_oklab,var(--accent-strong)_12%,transparent),transparent_38%)]" />
+        <section id="home" className="grid-fade relative flex min-h-[760px] scroll-mt-20 items-center border-b border-border pt-28">
+          <div className="hero-glow absolute inset-0 bg-[radial-gradient(circle_at_70%_38%,rgba(0,178,238,0.18),transparent_36%)]" />
           <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-5 py-20 lg:grid-cols-[.92fr_1.08fr] lg:px-8">
             <div className="reveal">
-              <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-accent-strong">
+              <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-slate-950/30 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-cyan-300">
                 <Globe2 className="size-4" />
-                Commerce without borders
+                Global commerce infrastructure
               </p>
               <h1 className="max-w-2xl text-5xl font-light leading-[1.08] sm:text-6xl lg:text-7xl">
-                Global commerce infrastructure built to scale with you.
+                Global E-Commerce Infrastructure, Built to Scale
               </h1>
               <p className="mt-7 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">
-                We help ambitious operators and partners build the infrastructure, operations, and
-                distribution systems behind durable international growth.
+                GlobalDealz LLC provides the operational infrastructure businesses need to establish,
+                manage, and scale cross-border e-commerce operations across multiple markets.
               </p>
               <div className="mt-9 flex flex-wrap gap-3">
                 <Button asChild size="lg" className="rounded-full">
-                  <Link to="/joint-ventures">
-                    Partner With Us
-                    <ArrowRight />
-                  </Link>
+                  <a
+                    href={calendlyUrl}
+                    target={calendlyUrl.startsWith("http") ? "_blank" : undefined}
+                    rel={calendlyUrl.startsWith("http") ? "noreferrer" : undefined}
+                  >
+                    Book a Consultation
+                  </a>
                 </Button>
                 <Button asChild variant="outline" size="lg" className="rounded-full">
-                  <Link to="/services">View Services</Link>
+                  <Link to="/infrastructure">Explore Infrastructure</Link>
+                </Button>
+                <Button asChild variant="secondary" size="lg" className="rounded-full">
+                  <a href={GLOBALDEALZ.whatsappUrl} target="_blank" rel="noreferrer">
+                    WhatsApp Us
+                  </a>
                 </Button>
               </div>
               <div className="mt-10 flex flex-wrap gap-5 text-xs text-muted-foreground">
-                {["Verified infrastructure", "Four warehouse markets", "24/7 operations"].map(
-                  (item) => (
-                    <span key={item} className="flex items-center gap-2">
-                      <Check className="size-4 text-accent-strong" />
-                      {item}
-                    </span>
-                  ),
-                )}
-              </div>
-              <div className="mt-10 flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
-                <a
-                  href={GLOBALDEALZ.whatsappUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-3 py-2 text-foreground hover:bg-muted"
-                >
-                  <MessageSquareText className="size-4 text-[#25D366]" /> WhatsApp
-                </a>
-                <a
-                  href={calendlyUrl}
-                  target={calendlyUrl.startsWith("http") ? "_blank" : undefined}
-                  rel={calendlyUrl.startsWith("http") ? "noreferrer" : undefined}
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-3 py-2 text-foreground hover:bg-muted"
-                >
-                  Schedule a call
-                </a>
+                {[
+                  "Global commerce infrastructure",
+                  "Multi-market operations",
+                  "24/7 operational support",
+                ].map((item) => (
+                  <span key={item} className="flex items-center gap-2">
+                    <Check className="size-4 text-cyan-300" />
+                    {item}
+                  </span>
+                ))}
               </div>
             </div>
 
@@ -563,7 +583,7 @@ function HomePage() {
                   key={`${name}-${i}`}
                   className="mx-8 flex items-center gap-2 text-lg font-semibold text-muted-foreground grayscale transition hover:text-foreground hover:grayscale-0"
                 >
-                  <span className="size-2 rounded-full bg-accent-strong" />
+                  <span className="size-2 rounded-full bg-cyan-300" />
                   {name}
                 </div>
               ))}
@@ -573,39 +593,39 @@ function HomePage() {
 
         <section className="mx-auto max-w-7xl px-5 py-24 lg:px-8 lg:py-32">
           <div className="max-w-2xl">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent-strong">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">
               Built around your ambition
             </p>
             <h2 className="mt-4 text-4xl font-light leading-tight sm:text-5xl">
               Infrastructure that meets you where you are—and carries you further.
             </h2>
+            <p className="mt-6 text-sm leading-7 text-muted-foreground sm:text-base">
+              We help companies establish the right operating foundation before growth gets complex.
+            </p>
           </div>
           <div className="mt-14 grid gap-5 md:grid-cols-2">
             <AudienceCard
               icon={Store}
-              label="For store owners"
+              label="For operators"
               title="Stay focused on scale."
-              copy="We take ownership of product listing, search optimization, customer support, and logistics while you lead growth."
+              copy="We bring structure to product discovery, sourcing coordination, marketplace execution, and operational support so your team can focus on growth."
               items={["Marketplace operations", "Search-led listings", "Customer experience"]}
             />
             <AudienceCard
               icon={Handshake}
               label="For investors & partners"
-              title="Put proven infrastructure to work."
-              copy="Launch high-converting joint venture stores through our verified US and UK entities, payment rails, and warehousing network."
-              items={["Aligned equity models", "Verified entities", "Transparent reporting"]}
+              title="Put the right infrastructure behind the model."
+              copy="Launch globally structured commercial relationships with a clearer foundation for entity setup, fulfillment, and operational reporting."
+              items={["Aligned commercial models", "Operating infrastructure", "Transparent reporting"]}
             />
           </div>
         </section>
 
-        <section
-          id="services"
-          className="scroll-mt-20 border-y border-border bg-muted/45 py-24 lg:py-32"
-        >
+        <section id="services" className="scroll-mt-20 border-y border-border bg-muted/45 py-24 lg:py-32">
           <div className="mx-auto max-w-7xl px-5 lg:px-8">
             <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent-strong">
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">
                   Core services
                 </p>
                 <h2 className="mt-4 max-w-2xl text-4xl font-light sm:text-5xl">
@@ -613,8 +633,7 @@ function HomePage() {
                 </h2>
               </div>
               <p className="max-w-md text-sm leading-7 text-muted-foreground">
-                Choose a single capability or connect every layer into an end-to-end commerce
-                engine.
+                Choose a single capability or connect every layer into an end-to-end commerce engine.
               </p>
             </div>
             <div className="mt-14 grid gap-4 md:grid-cols-2">
@@ -624,7 +643,7 @@ function HomePage() {
                   className="group rounded-[28px] border border-border bg-card p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
                 >
                   <div className="flex items-start justify-between">
-                    <span className="grid size-12 place-items-center rounded-2xl bg-accent text-accent-strong">
+                    <span className="grid size-12 place-items-center rounded-2xl bg-cyan-400/12 text-cyan-300">
                       <Icon />
                     </span>
                     <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
@@ -635,7 +654,7 @@ function HomePage() {
                   <p className="mt-3 max-w-md text-sm leading-7 text-muted-foreground">{copy}</p>
                   <Link
                     to={to}
-                    className="mt-8 flex items-center gap-2 text-sm font-semibold text-accent-strong"
+                    className="mt-8 flex items-center gap-2 text-sm font-semibold text-cyan-300"
                   >
                     Explore capability
                     <ChevronRight className="size-4 transition-transform group-hover:translate-x-1" />
@@ -646,22 +665,19 @@ function HomePage() {
           </div>
         </section>
 
-        <section
-          id="infrastructure"
-          className="scroll-mt-20 bg-dark-panel py-24 text-dark-panel-foreground lg:py-32"
-        >
+        <section id="infrastructure" className="scroll-mt-20 bg-dark-panel py-24 text-dark-panel-foreground lg:py-32">
           <div className="mx-auto max-w-7xl px-5 lg:px-8">
             <div className="grid gap-8 lg:grid-cols-[.7fr_1.3fr] lg:items-end">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent-strong">
-                  Global warehousing network
+                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">
+                  Global infrastructure
                 </p>
                 <h2 className="mt-4 text-4xl font-light sm:text-5xl">
-                  Local fulfillment. Global reach.
+                  Local execution. Global reach.
                 </h2>
-                <p className="mt-6 max-w-md text-sm leading-7 text-dark-panel-foreground/60">
-                  Position inventory closer to markets, reduce delivery friction, and coordinate
-                  fulfillment through one connected operating layer.
+                <p className="mt-6 max-w-md text-sm leading-7 text-dark-panel-foreground/65">
+                  Position inventory closer to markets, coordinate fulfillment more deliberately, and
+                  scale operations through one connected environment.
                 </p>
               </div>
               <WorldMap />
@@ -669,12 +685,9 @@ function HomePage() {
           </div>
         </section>
 
-        <section
-          id="joint-ventures"
-          className="scroll-mt-20 mx-auto max-w-7xl px-5 py-24 lg:px-8 lg:py-32"
-        >
+        <section id="joint-ventures" className="scroll-mt-20 mx-auto max-w-7xl px-5 py-24 lg:px-8 lg:py-32">
           <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent-strong">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">
               How to get started
             </p>
             <h2 className="mt-4 text-4xl font-light sm:text-5xl">From model to momentum.</h2>
@@ -682,24 +695,12 @@ function HomePage() {
           <div className="relative mt-16 grid gap-8 md:grid-cols-3">
             <div className="absolute left-[16.5%] right-[16.5%] top-6 hidden h-px bg-border md:block" />
             {[
-              [
-                "01",
-                "Select Your Model",
-                "Choose standalone infrastructure services or complete store handling.",
-              ],
-              [
-                "02",
-                "Onboarding & Setup",
-                "We align account formation, payment gateways, and warehouse systems.",
-              ],
-              [
-                "03",
-                "Launch & Scale",
-                "Product hunting, listing optimization, and operations move into execution.",
-              ],
+              ["01", "Select Your Model", "Choose standalone infrastructure services or a more complete operating model."],
+              ["02", "Onboarding & Setup", "We align company structure, payment infrastructure, and warehouse alignment for your route to market."],
+              ["03", "Launch & Scale", "Product research, marketplace operation, and operational oversight move into execution."],
             ].map(([number, title, copy]) => (
               <article key={number} className="relative">
-                <span className="relative z-10 grid size-12 place-items-center rounded-full border border-border bg-background text-sm font-semibold text-accent-strong">
+                <span className="relative z-10 grid size-12 place-items-center rounded-full border border-border bg-background text-sm font-semibold text-cyan-300">
                   {number}
                 </span>
                 <h3 className="mt-7 text-xl font-medium">{title}</h3>
@@ -713,10 +714,10 @@ function HomePage() {
           <div className="mx-auto max-w-7xl px-5 lg:px-8">
             <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[28px] border border-border bg-border lg:grid-cols-4">
               {[
-                { v: 5, p: "$", s: "M+", l: "Sales processed" },
-                { v: 4, s: "+", l: "Global warehouses" },
-                { v: 98.5, s: "%", l: "Positive feedback" },
-                { v: 17, s: "+", l: "Peak ROAS" },
+                { v: 2.5, p: "$", s: "M+", l: "Sales processed" },
+                { v: 4, s: "", l: "Strategic markets" },
+                { v: 98.5, s: "%", l: "Positive rating" },
+                { v: 3.8, s: "x", l: "Peak ROAS" },
               ].map((m) => (
                 <div key={m.l} className="bg-background p-6 sm:p-8">
                   <p className="text-3xl font-light sm:text-4xl">
@@ -729,10 +730,59 @@ function HomePage() {
           </div>
         </section>
 
+        <section className="border-t border-border bg-slate-950/90 py-24 text-white lg:py-32">
+          <div className="mx-auto grid max-w-7xl gap-8 px-5 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
+            <div className="rounded-[28px] border border-cyan-400/20 bg-white/5 p-8 shadow-[0_18px_60px_rgba(0,178,238,0.08)] backdrop-blur-sm">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">
+                Official Company Information
+              </p>
+              <h2 className="mt-5 text-4xl font-light text-white">GlobalDealz LLC</h2>
+              <p className="mt-5 text-sm leading-7 text-slate-300">
+                GlobalDealz LLC is a US-registered business operating from Pinedale, Wyoming, and
+                supporting cross-border e-commerce growth through infrastructure, operations, and market
+                execution support.
+              </p>
+              <div className="mt-8 space-y-4 text-sm">
+                <div className="flex items-center gap-3 text-slate-300">
+                  <Mail className="size-4 text-cyan-300" />
+                  <a href={`mailto:${GLOBALDEALZ.email}`} className="hover:text-white">
+                    {GLOBALDEALZ.email}
+                  </a>
+                </div>
+                <div className="flex items-center gap-3 text-slate-300">
+                  <MessageSquareText className="size-4 text-cyan-300" />
+                  <a href={GLOBALDEALZ.whatsappUrl} target="_blank" rel="noreferrer" className="hover:text-white">
+                    {GLOBALDEALZ.phone}
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[
+                { icon: Building2, label: "Legal Name", value: "GlobalDealz LLC" },
+                { icon: Globe2, label: "Jurisdiction", value: "Pinedale, Wyoming, USA" },
+                { icon: ShieldCheck, label: "Entity Registration ID", value: "XX-XXX0316" },
+                { icon: Landmark, label: "Registered Address", value: "34 N Franklin Ave Ste 687\nPinedale, WY 82941, USA" },
+                { icon: Mail, label: "Contact Email", value: "info@globaldealzllc.site" },
+                { icon: Headphones, label: "Support Phone", value: "+1 (901) 443-2051" },
+              ].map(({ icon: Icon, label, value }) => (
+                <div key={label} className="rounded-[22px] border border-cyan-400/15 bg-white/5 p-5">
+                  <div className="flex items-center gap-3 text-cyan-300">
+                    <Icon className="size-4" />
+                    <span className="text-[10px] uppercase tracking-[0.18em]">{label}</span>
+                  </div>
+                  <p className="mt-4 text-sm leading-6 text-slate-100 whitespace-pre-line">{value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section id="consultation" className="scroll-mt-20 py-24 lg:py-32">
           <div className="mx-auto grid max-w-6xl gap-14 px-5 lg:grid-cols-[.8fr_1.2fr] lg:px-8">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-accent-strong">
+              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">
                 Start a conversation
               </p>
               <h2 className="mt-4 text-4xl font-light sm:text-5xl">
@@ -744,12 +794,12 @@ function HomePage() {
               </p>
               <div className="mt-10 space-y-4">
                 {[
-                  { icon: ShieldCheck, label: "Verified business setup" },
+                  { icon: ShieldCheck, label: "Business setup coordination" },
                   { icon: Headphones, label: "Operational support around the clock" },
                   { icon: PackageCheck, label: "Warehousing across key markets" },
                 ].map(({ icon: Icon, label }) => (
                   <div key={label} className="flex items-center gap-3 text-sm">
-                    <Icon className="size-5 text-accent-strong" />
+                    <Icon className="size-5 text-cyan-300" />
                     {label}
                   </div>
                 ))}
@@ -789,7 +839,6 @@ function AudienceCard({
         {label}
       </div>
       <h3 className="mt-10 text-3xl font-light">{title}</h3>
-      <p className="mt-4 text-sm leading-7 text-muted-foreground">{copy}</p>
       <div className="mt-8 grid gap-3">
         {items.map((item) => (
           <span key={item} className="flex items-center gap-2 border-t border-border pt-3 text-sm">
