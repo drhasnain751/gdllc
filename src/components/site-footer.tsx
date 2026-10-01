@@ -19,7 +19,7 @@ const legalLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border bg-dark-panel text-dark-panel-foreground">
+    <footer className="site-footer border-t border-border bg-dark-panel text-dark-panel-foreground">
       <div className="depth-panel mx-auto grid max-w-7xl gap-10 rounded-t-[28px] border border-border/80 px-5 py-12 md:grid-cols-[1.5fr_1fr] lg:px-8">
         <div>
           <div className="mb-3">

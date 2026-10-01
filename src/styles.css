@@ -406,6 +406,32 @@
     background-size: 44px 44px;
   }
 
+  /* Ensure footer uses dark-panel with higher contrast across themes */
+  .site-footer {
+    background: var(--dark-panel);
+    color: var(--dark-panel-foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .site-footer a {
+    color: color-mix(in oklab, var(--dark-panel-foreground) 82%, var(--accent) 18%);
+    transition: color 160ms ease, opacity 160ms ease;
+  }
+
+  .site-footer .depth-panel {
+    background: linear-gradient(180deg,
+      color-mix(in oklab, var(--dark-panel) 96%, transparent 4%),
+      color-mix(in oklab, var(--dark-panel) 92%, transparent 8%)
+    );
+    border-color: color-mix(in oklab, var(--border) 55%, transparent 45%);
+  }
+
+  .site-footer a:hover {
+    color: color-mix(in oklab, var(--accent) 45%, var(--dark-panel-foreground) 55%);
+    text-decoration: underline;
+  }
+
   .glass-surface {
     border: 1px solid color-mix(in oklab, var(--border) 80%, transparent);
     background: color-mix(in oklab, var(--card) 70%, transparent);
