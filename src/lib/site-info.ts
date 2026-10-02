@@ -14,7 +14,7 @@ export function getCalendlyUrl() {
   const envUrl = import.meta.env["VITE_CALENDLY_URL"];
   return typeof envUrl === "string" && envUrl.trim()
     ? envUrl.trim()
-    : "mailto:info@globaldealzllc.site";
+    : "/contact";
 }
 
 export function openConsultation() {
@@ -22,6 +22,11 @@ export function openConsultation() {
 
   if (url.startsWith("http://") || url.startsWith("https://")) {
     window.open(url, "_blank", "noopener,noreferrer");
+    return;
+  }
+
+  if (url.startsWith("/")) {
+    window.location.assign(url);
     return;
   }
 
