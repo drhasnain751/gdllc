@@ -77,8 +77,14 @@ function PricingPage() {
               Scope is tailored to the market, operating model, and level of support required. No
               fixed-price package is implied.
             </p>
-            <Button asChild size="lg" className="mt-9">
-              <Link to="/contact">Book a Consultation</Link>
+            <Button
+              size="lg"
+              className="mt-9"
+              onClick={() => {
+                import("@/lib/site-info").then((m) => m.openConsultation());
+              }}
+            >
+              Book a Consultation
             </Button>
           </div>
         </section>
@@ -104,8 +110,12 @@ function PricingPage() {
                     </p>
                   ))}
                 </div>
-                <Button asChild variant={index === 1 ? "default" : "outline"} className="mt-9 w-full rounded-full">
-                  <Link to="/contact">Discuss this tier</Link>
+                <Button
+                  variant={index === 1 ? "default" : "outline"}
+                  className="mt-9 w-full rounded-full"
+                  onClick={() => import("@/lib/site-info").then((m) => m.openConsultation())}
+                >
+                  Discuss this tier
                 </Button>
               </article>
             ))}

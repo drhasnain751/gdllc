@@ -40,7 +40,7 @@ export function SiteFooter() {
             <br />
             <a
               className="text-dark-panel-foreground hover:underline hover:text-cyan-300"
-              href={`tel:${GLOBALDEALZ.phone.replace(/\s+/g, "")}`}
+              href={`tel:${GLOBALDEALZ.phone.replace(/[^+0-9]/g, "")}`}
             >
               {GLOBALDEALZ.phone}
             </a>

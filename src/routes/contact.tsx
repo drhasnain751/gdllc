@@ -204,7 +204,7 @@ function Contact() {
 
           <div className="mt-10 space-y-5">
             <ContactDetail icon={Mail} label="Email" value={GLOBALDEALZ.email} href={`mailto:${GLOBALDEALZ.email}`} />
-            <ContactDetail icon={Phone} label="Phone" value={GLOBALDEALZ.phone} href={`tel:${GLOBALDEALZ.phone.replace(/\s+/g, "")}`} />
+            <ContactDetail icon={Phone} label="Phone" value={GLOBALDEALZ.phone} href={`tel:${GLOBALDEALZ.phone.replace(/[^+0-9]/g, "")}`} />
             <ContactDetail icon={MessageSquareText} label="WhatsApp" value="WhatsApp us" href={GLOBALDEALZ.whatsappUrl} />
           </div>
         </div>

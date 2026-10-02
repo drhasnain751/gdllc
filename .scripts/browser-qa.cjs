@@ -4,7 +4,7 @@ const path = require('path');
 
 (async () => {
   const root = 'c:\\Users\\PMLS\\Downloads\\globaldealzllc-main';
-  const baseUrl = 'http://127.0.0.1:5173';
+  const baseUrl = 'http://localhost:5173';
   const routes = [
     '/',
     '/services',

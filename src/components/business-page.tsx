@@ -42,11 +42,14 @@ export function BusinessPage({
               {intro}
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <Button asChild size="lg" className="rounded-full">
-                <Link to="/" hash="consultation">
-                  Book a Consultation
-                  <ArrowRight />
-                </Link>
+              <Button
+                size="lg"
+                className="rounded-full"
+                onClick={() => import("@/lib/site-info").then((m) => m.openConsultation())}
+                aria-label="Book a consultation"
+              >
+                Book a Consultation
+                <ArrowRight />
               </Button>
               <Button asChild size="lg" variant="outline" className="rounded-full">
                 <Link to="/pricing">View Pricing</Link>
@@ -88,11 +91,14 @@ export function BusinessPage({
                 {closingCopy}
               </p>
             </div>
-            <Button asChild size="lg" className="shrink-0 rounded-full">
-              <Link to="/" hash="consultation">
-                Start a conversation
-                <ArrowRight />
-              </Link>
+            <Button
+              size="lg"
+              className="shrink-0 rounded-full"
+              onClick={() => import("@/lib/site-info").then((m) => m.openConsultation())}
+              aria-label="Start a conversation"
+            >
+              Start a conversation
+              <ArrowRight />
             </Button>
           </div>
         </section>

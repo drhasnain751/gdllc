@@ -3,6 +3,7 @@ import { Menu, Moon, Sun, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { openConsultation } from "@/lib/site-info";
 
 const navigation = [
   ["Home", "/"],
@@ -120,10 +121,12 @@ export function SiteHeader() {
           >
             {dark ? <Sun /> : <Moon />}
           </Button>
-          <Button asChild className="hidden rounded-full px-5 sm:inline-flex">
-            <Link to="/" hash="consultation">
-              Book a Consultation
-            </Link>
+          <Button
+            className="hidden rounded-full px-5 sm:inline-flex"
+            onClick={() => openConsultation()}
+            aria-label="Book a consultation"
+          >
+            Book a Consultation
           </Button>
           <Button
             variant="ghost"
@@ -153,10 +156,15 @@ export function SiteHeader() {
                 {label}
               </Link>
             ))}
-            <Button asChild className="mt-3 rounded-full">
-              <Link to="/" hash="consultation" onClick={() => setOpen(false)}>
-                Book a Consultation
-              </Link>
+            <Button
+              className="mt-3 rounded-full"
+              onClick={() => {
+                setOpen(false);
+                openConsultation();
+              }}
+              aria-label="Book a consultation"
+            >
+              Book a Consultation
             </Button>
           </div>
         </nav>
