@@ -1,113 +1,99 @@
-import { Canvas, useFrame } from "@react-three/fiber";
 import { Html, OrbitControls } from "@react-three/drei";
-import { useMemo, useRef } from "react";
-import { CatmullRomCurve3, Vector3 } from "three";
+import { useMemo } from "react";
 
 const markets = [
-  { lat: 38.0, lon: -97.0, label: "United States" },
-  { lat: 51.5, lon: -0.12, label: "United Kingdom" },
-  { lat: 52.5, lon: 13.4, label: "Germany" },
-  { lat: -25.0, lon: 133.0, label: "Australia" },
-];
-
-function latLonToVector3(lat: number, lon: number, radius = 2.2) {
-  const phi = (90 - lat) * (Math.PI / 180);
-  const theta = (lon + 180) * (Math.PI / 180);
-
-  const x = -(radius * Math.sin(phi) * Math.cos(theta));
-  const z = radius * Math.sin(phi) * Math.sin(theta);
-  const y = radius * Math.cos(phi);
-
-  return new Vector3(x, y, z);
-}
-
-function Node({ position, label }: { position: Vector3; label: string }) {
-  const ref = useRef<any>(null);
-
-  useFrame(({ clock }) => {
-    const t = clock.getElapsedTime();
-    if (ref.current) ref.current.scale.setScalar(1 + Math.sin(t * 2) * 0.08);
-  });
-
-  return (
-    <group position={position.toArray()}>
-      <mesh ref={ref}>
-        <sphereGeometry args={[0.06, 12, 12]} />
-        <meshStandardMaterial color="#38dff0" emissive="#00B2EE" emissiveIntensity={0.8} />
-      </mesh>
-      <Html distanceFactor={6} position={[0, 0.18, 0]}>
-        <div
-          style={{
-            background: "rgba(10,18,28,0.85)",
-            color: "#e8f6ff",
-            padding: "6px 8px",
-            borderRadius: 8,
-            fontSize: 12,
-            pointerEvents: "none",
-          }}
-        >
-          {label}
-        </div>
-      </Html>
-    </group>
-  );
-}
-
-function Arc({ points }: { points: Vector3[] }) {
-  const curve = useMemo(() => new CatmullRomCurve3(points), [points]);
-  const pts = curve.getPoints(40);
-  const positions = new Float32Array(pts.flatMap((p) => [p.x, p.y, p.z]));
-
-  return (
-    <line>
-      <bufferGeometry>
-        <bufferAttribute
-          attachObject={["attributes", "position"]}
-          count={positions.length / 3}
-          array={positions}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <lineBasicMaterial color="#6ee7f8" linewidth={2} transparent opacity={0.85} />
-    </line>
-  );
-}
+  { x: 92, y: 120, label: "United States" },
+  { x: 230, y: 104, label: "United Kingdom" },
+  { x: 270, y: 128, label: "Germany" },
+  { x: 402, y: 224, label: "Australia" },
+] as const;
 
 export function Globe() {
-  const nodePositions = useMemo(() => markets.map((m) => ({ ...m, pos: latLonToVector3(m.lat, m.lon) })), []);
-
   return (
-    <div style={{ width: "100%", height: 360 }}>
-      <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 6], fov: 40 }}>
-        <ambientLight intensity={0.6} />
-        <directionalLight position={[5, 5, 5]} intensity={1} color="#9eeafc" />
-        <mesh>
-          <sphereGeometry args={[2.2, 48, 48]} />
-          <meshStandardMaterial color="#072033" metalness={0.2} roughness={0.6} emissive="#00131a" />
-        </mesh>
+    <div
+      style={{
+        width: "100%",
+        height: 360,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <svg
+        viewBox="0 0 520 360"
+        width="100%"
+        height="100%"
+        role="img"
+        aria-label="Global market map"
+        style={{ display: "block" }}
+      >
+        <defs>
+          <radialGradient id="globeGlow" cx="50%" cy="45%" r="60%">
+            <stop offset="0%" stopColor="#1c5d7a" />
+            <stop offset="55%" stopColor="#0d2238" />
+            <stop offset="100%" stopColor="#071822" />
+          </radialGradient>
+          <linearGradient id="arcStroke" x1="0%" x2="100%" y1="0%" y2="0%">
+            <stop offset="0%" stopColor="#7ce8ff" stopOpacity="0.35" />
+            <stop offset="50%" stopColor="#7ce8ff" stopOpacity="0.82" />
+            <stop offset="100%" stopColor="#7ce8ff" stopOpacity="0.35" />
+          </linearGradient>
+        </defs>
 
-        {nodePositions.map((n) => (
-          <Node key={n.label} position={n.pos} label={n.label} />
+        <circle cx="250" cy="180" r="150" fill="url(#globeGlow)" opacity="0.95" />
+        <circle cx="250" cy="180" r="150" fill="none" stroke="rgba(124,232,255,0.24)" strokeWidth="1.5" />
+        <ellipse cx="250" cy="180" rx="130" ry="100" fill="none" stroke="rgba(124,232,255,0.12)" strokeWidth="1" />
+        <ellipse cx="250" cy="180" rx="90" ry="150" fill="none" stroke="rgba(124,232,255,0.1)" strokeWidth="1" />
+
+        {(
+          [
+            [250, 180, 92, 120],
+            [250, 180, 230, 104],
+            [250, 180, 270, 128],
+            [250, 180, 402, 224],
+          ] as [number, number, number, number][]
+        ).map((line, index) => (
+          <path
+            key={index}
+            d={`M ${line[0]} ${line[1]} Q ${(line[0] + line[2]) / 2} ${(line[1] + line[3]) / 2 - 30} ${line[2]} ${
+              line[3]
+            }`}
+            fill="none"
+            stroke="url(#arcStroke)"
+            strokeWidth="2"
+            strokeLinecap="round"
+            opacity="0.9"
+          />
         ))}
 
-        <group>
-          {(
-            [
-              [0, 1],
-              [0, 2],
-              [0, 3],
-              [1, 2],
-            ] as [number, number][]
-          ).map(([a, b], i) => {
-            const start = nodePositions[a].pos.clone().multiplyScalar(1.02);
-            const end = nodePositions[b].pos.clone().multiplyScalar(1.02);
-            const mid = start.clone().lerp(end, 0.5).multiplyScalar(1.15);
-            return <Arc key={i} points={[start, mid, end]} />;
-          })}
-        </group>
+        {markets.map(({ x, y, label }) => (
+          <g key={label}>
+            <circle cx={x} cy={y} r="8" fill="#7ce8ff" opacity="0.95" />
+            <circle cx={x} cy={y} r="14" fill="none" stroke="#7ce8ff" strokeOpacity="0.35" />
+            <rect
+              x={x + 12}
+              y={y - 15}
+              width={label.length * 7 + 16}
+              height="24"
+              rx="12"
+              fill="rgba(8, 15, 24, 0.8)"
+              stroke="rgba(124,232,255,0.2)"
+            />
+            <text
+              x={x + 20}
+              y={y + 4}
+              fill="#eafcff"
+              fontSize="11"
+              fontWeight="600"
+              letterSpacing="0.08em"
+            >
+              {label.toUpperCase()}
+            </text>
+          </g>
+        ))}
 
-        <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.08} rotateSpeed={0.4} />
-      </Canvas>
+        <circle cx="250" cy="180" r="24" fill="rgba(124,232,255,0.08)" stroke="rgba(124,232,255,0.22)" />
+      </svg>
     </div>
   );
 }

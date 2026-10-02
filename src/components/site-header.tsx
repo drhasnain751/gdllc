@@ -16,55 +16,22 @@ const navigation = [
 ] as const;
 
 export function BrandMark({ onDark = false }: { onDark?: boolean | undefined }) {
-  const textColor = onDark ? "#F8FBFF" : "#0F1F3B";
-  const accentColor = onDark ? "#D9E7FF" : "#415570";
-  const markColor = "#F4F8FF";
-  const badgeColor = "#0B1F3C";
+  const logoSrc = onDark
+    ? "/globaldealz-header-logo-light.svg"
+    : "/globaldealz-header-logo-dark.svg";
 
   return (
-    <span className="inline-flex items-center" aria-label="GlobalDealz Infrastructure">
-      <svg
-        viewBox="0 0 820 220"
-        className="h-14 w-auto"
-        role="img"
-        aria-label="GlobalDealz Infrastructure"
-      >
-        <rect x="8" y="18" width="180" height="180" rx="36" fill={badgeColor} />
-        <text
-          x="98"
-          y="135"
-          textAnchor="middle"
-          fill={markColor}
-          fontSize="118"
-          fontWeight="800"
-          fontFamily="Inter, Arial, sans-serif"
-        >
-          G
-        </text>
-        <rect x="133" y="124" width="28" height="28" rx="6" fill="#5AB7F4" />
-        <text
-          x="225"
-          y="118"
-          fill={textColor}
-          fontSize="78"
-          fontWeight="800"
-          letterSpacing="-2"
-          fontFamily="Inter, Arial, sans-serif"
-        >
-          GLOBALDEALZ
-        </text>
-        <text
-          x="228"
-          y="170"
-          fill={accentColor}
-          fontSize="27"
-          fontWeight="500"
-          letterSpacing="14"
-          fontFamily="Inter, Arial, sans-serif"
-        >
-          INFRASTRUCTURE
-        </text>
-      </svg>
+    <span
+      className="inline-flex items-center overflow-visible"
+      aria-label="GlobalDealz Infrastructure"
+    >
+      <img
+        src={logoSrc}
+        alt="GlobalDealz Infrastructure"
+        className="block h-9 w-auto max-w-[280px] object-contain sm:h-11 md:h-12"
+        draggable={false}
+        style={{ background: "transparent" }}
+      />
     </span>
   );
 }

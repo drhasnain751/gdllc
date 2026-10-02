@@ -3,8 +3,6 @@ import { ArrowUpRight } from "lucide-react";
 
 import { GLOBALDEALZ } from "@/lib/site-info";
 
-import { BrandMark } from "./site-header";
-
 const legalLinks = [
   ["Services", "/services"],
   ["Infrastructure", "/infrastructure"],
@@ -23,7 +21,13 @@ export function SiteFooter() {
       <div className="depth-panel mx-auto grid max-w-7xl gap-10 rounded-t-[28px] border border-border/80 px-5 py-12 md:grid-cols-[1.5fr_1fr] lg:px-8">
         <div>
           <div className="mb-3">
-            <BrandMark />
+            <img
+              src="/globaldealz-header-logo-light.svg"
+              alt="GlobalDealz Infrastructure"
+              className="h-9 w-auto max-w-[260px] object-contain"
+              draggable={false}
+              style={{ background: "transparent" }}
+            />
           </div>
           <p className="mt-5 max-w-md text-sm leading-6 text-dark-panel-foreground">
             Global e-commerce infrastructure, operational support, and growth partnership for
