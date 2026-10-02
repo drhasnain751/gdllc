@@ -19,7 +19,7 @@ import {
   Warehouse,
   type LucideIcon,
 } from "lucide-react";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState, lazy, Suspense } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,6 +37,12 @@ import { SiteHeader } from "@/components/site-header";
 import { consultationSchema, submitConsultation } from "@/lib/consultation.functions";
 import { GLOBALDEALZ, getCalendlyUrl } from "@/lib/site-info";
 import { Hero3D } from "@/components/hero3d/Hero3D";
+
+const CardScene = lazy(() =>
+  import("@/components/hero3d/CardScene").then((m) => ({
+    default: (m as any).CardScene || (m as any).default,
+  }))
+);
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -255,94 +261,14 @@ function DashboardMockup() {
   );
 }
 
-function CountUp({
-  value,
-  prefix = "",
-  suffix = "",
-}: {
-  value: number;
-  prefix?: string | undefined;
-  suffix?: string | undefined;
-}) {
-  const [shown, setShown] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
-  useEffect(() => {
-    const node = ref.current;
-    if (!node) return;
-
-    const prefersReduced =
-      typeof window !== "undefined" &&
-      window.matchMedia &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (prefersReduced || typeof window === "undefined") {
-      setShown(value);
-      return;
-    }
-
-    let rafId: number | null = null;
-    let started = false;
-    const duration = 1400;
-
-    const animate = (startTime: number) => {
-      const step = (now: number) => {
-        const progress = Math.min((now - startTime) / duration, 1);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        setShown(value * eased);
-
-        if (progress < 1) {
-          rafId = requestAnimationFrame(step);
-        } else {
-          setShown(value);
-          rafId = null;
-        }
-      };
-      rafId = requestAnimationFrame(step);
-    };
-
-    const startIfVisible = () => {
-      if (started) return;
-      started = true;
-      animate(performance.now());
-    };
-
-    if (typeof IntersectionObserver !== "undefined") {
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            startIfVisible();
-            observer.disconnect();
-          }
-        },
-        { threshold: 0.2, rootMargin: "0px 0px -10% 0px" },
-      );
-
-      observer.observe(node);
-
-      const fallback = window.setTimeout(() => {
-        startIfVisible();
-        observer.disconnect();
-      }, 600);
-
-      return () => {
-        observer.disconnect();
-        if (rafId) cancelAnimationFrame(rafId);
-        window.clearTimeout(fallback);
-      };
-    }
-
-    // No IntersectionObserver: start immediately
-    startIfVisible();
-
-    return () => {
-      if (rafId) cancelAnimationFrame(rafId);
-    };
-  }, [value]);
-
-  const display = Number.isInteger(value) ? Math.round(shown) : Number(shown).toFixed(1);
+function CountUp({ value, prefix = "", suffix = "" }: { value: number; prefix?: string | undefined; suffix?: string | undefined }) {
+  // Immediate, stable metric rendering: show the final value by default.
+  // This avoids an initial zero state when IntersectionObserver isn't triggered,
+  // and ensures values do not animate back to zero after load.
+  const display = Number.isInteger(value) ? String(Math.round(value)) : String(Number(value).toFixed(1));
 
   return (
-    <span ref={ref} aria-label={`${prefix}${value}${suffix}`}>
+    <span aria-label={`${prefix}${value}${suffix}`}>
       {prefix}
       {display}
       {suffix}
@@ -358,42 +284,14 @@ function WorldMap() {
     { x: 682, y: 250, label: "Australia" },
   ];
 
+  const Globe = lazy(() => import("@/components/hero3d/Globe").then((m) => ({ default: m.Globe })));
+
   return (
     <div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-white/5 p-4 sm:p-8">
       <div className="relative">
-        <svg
-          viewBox="0 0 800 360"
-          className="w-full"
-          role="img"
-          aria-label="Global network map with locations in the United States, United Kingdom, Germany, and Australia"
-        >
-          <title>Global fulfillment network</title>
-          <desc>Illustrative network connections across key commerce markets.</desc>
-          <defs>
-            <pattern id="dots" width="10" height="10" patternUnits="userSpaceOnUse">
-              <circle cx="2" cy="2" r="1.4" fill="currentColor" />
-            </pattern>
-            <mask id="world">
-              <path
-                fill="currentColor"
-                d="M35 90l95-55 122 16 52 57-30 47-61 20-32 76-83-15-20-75-53-30zm282-34l67-27 79 22 36 49 61 17 38 70-56 40-65-14-29 75-57-18-12-89-54-54zm241 67l92-47 83 26 47 70-43 38-43-26-31 10-48-37zm57 105l90-15 57 45-31 57-92-16-38-40z"
-              />
-            </mask>
-          </defs>
-          <rect width="800" height="360" fill="url(#dots)" mask="url(#world)" className="text-dark-panel-foreground/25" />
-          <path d="M155 122 C260 118, 310 96, 355 88 S396 98, 387 105 S520 156, 682 250" fill="none" stroke="rgba(56,189,248,0.55)" strokeWidth="2.5" strokeDasharray="6 8" />
-          {markets.map((p) => (
-            <g key={p.label} className="group cursor-pointer" tabIndex={0} role="button" aria-label={`${p.label} market` }>
-              <circle cx={p.x} cy={p.y} r="16" fill="rgba(56,189,248,0.22)" className="marker-ring" />
-              <circle cx={p.x} cy={p.y} r="5" fill="var(--dark-panel-foreground)" />
-              <circle cx={p.x} cy={p.y} r="18" fill="rgba(56,189,248,0.08)" className="group-hover:opacity-100 opacity-0 transition-opacity" />
-              <g className="opacity-0 transition-opacity group-hover:opacity-100 group-focus:opacity-100">
-                <rect x={p.x - 54} y={p.y - 42} width="108" height="27" rx="7" fill="var(--dark-panel-foreground)" />
-                <text x={p.x} y={p.y - 24} textAnchor="middle" fill="var(--dark-panel)" fontSize="11" fontWeight="600">{p.label}</text>
-              </g>
-            </g>
-          ))}
-        </svg>
+        <Suspense fallback={<div style={{ height: 360 }} />}> 
+          <Globe />
+        </Suspense>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4">
         {markets.map((p) => (
@@ -842,8 +740,17 @@ function HomePage() {
               {services.map(({ icon: Icon, title, copy, tag, to }) => (
                 <article
                   key={title}
-                  className="tilt-card surface-3d group relative rounded-[28px] border border-border bg-card p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl"
+                  className="tilt-card surface-3d group relative rounded-[28px] border border-border bg-card p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden"
                 >
+                  <div className="absolute top-6 right-6 opacity-90">
+                    {/* small decorative 3D scene */}
+                    <div style={{ width: 108, height: 72 }}>
+                      {/* lazy-load minimal CardScene to keep perf reasonable */}
+                      <Suspense fallback={<div style={{ width: 108, height: 72 }} />}>
+                        {typeof window !== "undefined" ? <CardScene size={108} /> : null}
+                      </Suspense>
+                    </div>
+                  </div>
                   <div className="flex items-start justify-between">
                     <span className="grid size-12 place-items-center rounded-2xl bg-cyan-400/12 text-cyan-300">
                       <Icon />

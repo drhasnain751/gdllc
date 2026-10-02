@@ -32,37 +32,47 @@ function SceneInner({ reducedMotion }: { reducedMotion: boolean }) {
   }, []);
 
   useFrame((_, delta) => {
-    const targetX = reducedMotion ? 0 : pointer.x * 0.44;
-    const targetY = reducedMotion ? 0.18 : pointer.y * 0.36 + scrollProgress * 0.5;
-    const camZ = reducedMotion ? 5.8 : 6.2 - scrollProgress * 2.2;
+    // stronger, phased camera progression for distinct visual states
+    const pointerX = reducedMotion ? 0 : pointer.x;
+    const pointerY = reducedMotion ? 0 : pointer.y;
 
-    camera.position.x = MathUtils.lerp(camera.position.x, targetX, 0.05);
-    camera.position.y = MathUtils.lerp(camera.position.y, 0.72 + targetY, 0.05);
-    camera.position.z = MathUtils.lerp(camera.position.z, camZ, 0.06);
+    // Phase mapping: 0-0.25 (distant), 0.25-0.55 (approach), 0.55-0.85 (turn), 0.85-1 (front)
+    let camTarget = { x: 0, y: 0.72, z: 6.2 };
+    if (scrollProgress < 0.25) {
+      camTarget = { x: pointerX * 0.2, y: 0.82 + pointerY * 0.04, z: 7.2 };
+    } else if (scrollProgress < 0.55) {
+      const t = (scrollProgress - 0.25) / 0.3;
+      camTarget = { x: pointerX * 0.28, y: 0.78 + t * 0.18 + pointerY * 0.06, z: 6.2 - t * 1.4 };
+    } else if (scrollProgress < 0.85) {
+      const t = (scrollProgress - 0.55) / 0.3;
+      camTarget = { x: pointerX * 0.36, y: 0.9 - t * 0.12 + pointerY * 0.08, z: 4.8 - t * 0.8 };
+    } else {
+      const t = (scrollProgress - 0.85) / 0.15;
+      camTarget = { x: pointerX * 0.44, y: 0.78 + t * 0.2 + pointerY * 0.12, z: 4.0 - t * 0.6 };
+    }
+
+    camera.position.x = MathUtils.lerp(camera.position.x, camTarget.x, 0.06);
+    camera.position.y = MathUtils.lerp(camera.position.y, camTarget.y, 0.06);
+    camera.position.z = MathUtils.lerp(camera.position.z, camTarget.z, 0.06);
     camera.lookAt(0, 0, 0);
 
     if (!groupRef.current) return;
 
-    groupRef.current.rotation.x = MathUtils.lerp(
-      groupRef.current.rotation.x,
-      reducedMotion ? 0.12 : -0.48 + scrollProgress * 0.9 + pointer.y * 0.22,
-      0.06,
-    );
-    groupRef.current.rotation.y = MathUtils.lerp(
-      groupRef.current.rotation.y,
-      reducedMotion ? 0.62 : 0.7 + scrollProgress * 0.95 + pointer.x * 0.38,
-      0.06,
-    );
-    groupRef.current.rotation.z = MathUtils.lerp(
-      groupRef.current.rotation.z,
-      reducedMotion ? 0.15 : -0.12 + scrollProgress * 0.32,
-      0.06,
-    );
-    groupRef.current.position.x = MathUtils.lerp(groupRef.current.position.x, reducedMotion ? 0 : pointer.x * 0.2, 0.06);
-    groupRef.current.position.y = MathUtils.lerp(groupRef.current.position.y, reducedMotion ? 0.1 : pointer.y * 0.12, 0.06);
+    // group rotation/position with stronger phase-dependent values
+    const rotXTarget = reducedMotion ? 0.12 : -0.6 + scrollProgress * 1.6 + pointerY * 0.36;
+    const rotYTarget = reducedMotion ? 0.62 : 0.6 + scrollProgress * 1.1 + pointerX * 0.6;
+    const rotZTarget = reducedMotion ? 0.15 : -0.18 + scrollProgress * 0.9;
 
+    groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, rotXTarget, 0.06);
+    groupRef.current.rotation.y = MathUtils.lerp(groupRef.current.rotation.y, rotYTarget, 0.06);
+    groupRef.current.rotation.z = MathUtils.lerp(groupRef.current.rotation.z, rotZTarget, 0.06);
+
+    groupRef.current.position.x = MathUtils.lerp(groupRef.current.position.x, pointerX * 0.28, 0.06);
+    groupRef.current.position.y = MathUtils.lerp(groupRef.current.position.y, 0.08 + pointerY * 0.12 + scrollProgress * 0.45 - 0.15, 0.06);
+
+    // subtle continuous spin for life
     const targetGroup = groupRef.current;
-    targetGroup.rotation.x += delta * 0.1;
+    targetGroup.rotation.x += delta * 0.05;
   });
 
   const panelSize = typeof window !== "undefined" && window.innerWidth < 768 ? 1.15 : 1;
@@ -73,7 +83,7 @@ function SceneInner({ reducedMotion }: { reducedMotion: boolean }) {
       <fog attach="fog" args={["#061633", 4, 12]} />
       <PerspectiveCamera makeDefault position={[0, 0.72, 6.2]} fov={36} />
       <ambientLight intensity={0.72} />
-      <hemisphereLight skyColor="#0b2340" groundColor="#00111a" intensity={0.45} />
+      <hemisphereLight args={["#0b2340", "#00111a", 0.45]} />
       <directionalLight position={[4, 5, 4]} intensity={1.2} color="#00B2EE" />
       <directionalLight position={[-5, 1, -3]} intensity={0.5} color="#d7f5ff" />
       <pointLight position={[0, 0, 3]} intensity={0.6} color="#00B2EE" />
