@@ -97,14 +97,14 @@ export const Route = createFileRoute("/")({
 });
 
 const platforms = [
-  "Amazon",
-  "eBay",
-  "Etsy",
-  "TikTok Shop",
-  "Walmart",
-  "Stripe",
-  "Elevate Pay",
-  "Payoneer",
+  { name: "Amazon", logo: "/logos/amazon.svg" },
+  { name: "eBay", logo: "https://cdn.simpleicons.org/ebay/ffffff" },
+  { name: "Etsy", logo: "https://cdn.simpleicons.org/etsy/ffffff" },
+  { name: "TikTok Shop", logo: "https://cdn.simpleicons.org/tiktok/ffffff" },
+  { name: "Walmart", logo: "/logos/walmart.svg" },
+  { name: "Stripe", logo: "https://cdn.simpleicons.org/stripe/ffffff" },
+  { name: "Elevate Pay", logo: "https://cdn.simpleicons.org/visa/ffffff" },
+  { name: "Payoneer", logo: "https://cdn.simpleicons.org/payoneer/ffffff" },
 ];
 
 const services = [
@@ -353,13 +353,6 @@ function CountUp({
   );
 }
 
-/* =========================================================
-   WORLD MAP (fixed)
-   - Globe is lazy-loaded at module level (not inside render)
-   - Rendered client-side only
-   - Wrapper has an explicit height so the canvas can't collapse to 0
-   ========================================================= */
-
 function WorldMap() {
   const mounted = useMounted();
 
@@ -599,10 +592,6 @@ function Field({
     </div>
   );
 }
-
-/* =========================================================
-   PREMIUM AUDIENCE CARD
-   ========================================================= */
 
 function AudienceCard({
   icon: Icon,
@@ -1294,13 +1283,20 @@ function HomePage() {
 
           <div className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
             <div className="marquee-track flex w-max items-center">
-              {[...platforms, ...platforms].map((name, i) => (
+              {[...platforms, ...platforms].map(({ name, logo }, i) => (
                 <div
                   key={`${name}-${i}`}
-                  className="mx-8 flex items-center gap-2 text-lg font-semibold text-muted-foreground grayscale transition hover:text-foreground hover:grayscale-0"
+                  className="group mx-8 flex items-center gap-3 rounded-full border border-white/5 bg-white/3 px-4 py-2 text-lg font-semibold text-muted-foreground transition hover:border-cyan-400/25 hover:bg-white/5 hover:text-foreground"
                 >
-                  <span className="size-2 rounded-full bg-cyan-300" />
-                  {name}
+                  <img
+                    src={logo}
+                    alt={`${name} logo`}
+                    className="h-7 w-auto object-contain opacity-60 grayscale transition duration-300 group-hover:opacity-100 group-hover:grayscale-0"
+                    loading="lazy"
+                  />
+                  <span className="text-sm tracking-[0.12em] text-current/90 uppercase sm:text-base">
+                    {name}
+                  </span>
                 </div>
               ))}
             </div>

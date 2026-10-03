@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96" role="img" aria-label="Walmart logo">
+  <rect width="320" height="96" fill="transparent"/>
+  <text x="50%" y="56%" text-anchor="middle" font-size="40" font-weight="700" font-family="Arial, Helvetica, sans-serif" fill="#ffffff" letter-spacing="-1">WALMART</text>
+  <path d="M90 28h32l18 40h-32zM130 28h28l-8 40h-28zM162 28h30l-10 40h-30zM198 28h32l-14 40h-32z" fill="#ffffff" opacity="0.2"/>
+</svg>
