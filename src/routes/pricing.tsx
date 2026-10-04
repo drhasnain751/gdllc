@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Check, CircleDollarSign } from "lucide-react";
 
 import { SiteFooter } from "@/components/site-footer";
@@ -64,7 +64,7 @@ function PricingPage() {
     <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
       <SiteHeader />
       <main className="pt-20">
-        <section className="grid-fade border-b border-border">
+        <section className="border-b border-border bg-white/2">
           <div className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
             <p className="flex items-center gap-2 text-sm font-semibold uppercase text-accent-strong">
               <CircleDollarSign className="size-5" />
@@ -79,7 +79,7 @@ function PricingPage() {
             </p>
             <Button
               size="lg"
-              className="mt-9"
+              className="mt-9 rounded-full"
               onClick={() => {
                 import("@/lib/site-info").then((m) => m.openConsultation());
               }}
@@ -88,6 +88,7 @@ function PricingPage() {
             </Button>
           </div>
         </section>
+
         <section className="mx-auto max-w-7xl px-5 py-20 lg:px-8 lg:py-28">
           <div className="grid gap-5 lg:grid-cols-3">
             {pricingTiers.map((tier, index) => (
@@ -95,7 +96,7 @@ function PricingPage() {
                 key={tier.name}
                 className={`depth-card rounded-[30px] border p-7 shadow-sm sm:p-9 ${
                   index === 1
-                    ? "border-cyan-400/25 bg-cyan-500/5"
+                    ? "border-border/80 bg-white/8"
                     : "border-border bg-card"
                 }`}
               >
@@ -121,15 +122,61 @@ function PricingPage() {
             ))}
           </div>
         </section>
-        <section className="border-y border-border bg-muted/45 py-20">
-          <div className="mx-auto max-w-4xl px-5 text-center lg:px-8">
-            <p className="text-sm font-semibold uppercase text-accent-strong">Scope-based guidance</p>
-            <h2 className="mt-4 text-4xl font-light">The right model depends on the operating need.</h2>
-            <p className="mt-5 text-sm leading-7 text-muted-foreground">
-              A consultation helps determine whether your requirement fits infrastructure, managed
-              operations, or a strategic partnership model.
-            </p>
+
+        <section className="border-y border-white/10 bg-white/2 py-20">
+          <div className="mx-auto max-w-7xl px-5 lg:px-8">
+            <div className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-strong">
+                  Scope-based guidance
+                </p>
+                <h2 className="mt-4 text-4xl font-light text-foreground">The right model depends on the need.</h2>
+              </div>
+              <p className="max-w-xl text-sm leading-7 text-muted-foreground">
+                We help decide whether the requirement is best supported through infrastructure, day-to-day operations, or a structured partnership model.
+              </p>
+            </div>
+
+            <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+              <div className="relative overflow-hidden rounded-[30px] border border-white/10 bg-white/5 shadow-[0_40px_100px_rgba(15,23,42,0.14)]">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(52,211,153,0.08),transparent_35%)]" />
+                <img
+                  src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=80"
+                  alt="Commercial planning and strategic review"
+                  className="h-[420px] w-full object-cover opacity-90"
+                />
+              </div>
+
+              <div className="grid gap-5">
+                {[
+                  "Infrastructure for market readiness",
+                  "Operations support for execution",
+                  "Warehousing and fulfillment planning",
+                  "Strategic joint venture structure",
+                ].map((item) => (
+                  <div key={item} className="rounded-[22px] border border-white/10 bg-white/5 p-5 text-sm text-muted-foreground shadow-[0_16px_40px_rgba(15,23,42,0.1)]">
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
+        </section>
+
+        <section className="mx-auto max-w-4xl px-5 py-20 text-center lg:px-8">
+          <p className="text-sm font-semibold uppercase text-accent-strong">Scope-based guidance</p>
+          <h2 className="mt-4 text-4xl font-light">The right model depends on the operating need.</h2>
+          <p className="mt-5 text-sm leading-7 text-muted-foreground">
+            A consultation helps determine whether your requirement fits infrastructure, managed operations, or a strategic partnership model.
+          </p>
+          <Button
+            size="lg"
+            className="mt-8 rounded-full"
+            onClick={() => import("@/lib/site-info").then((m) => m.openConsultation())}
+          >
+            Request a Proposal
+            <ArrowRight />
+          </Button>
         </section>
       </main>
       <SiteFooter />

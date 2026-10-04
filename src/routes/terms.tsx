@@ -77,7 +77,7 @@ function Terms() {
         <p>
           We may suspend or terminate access to the website or any consultation process if the use of
           the site is unlawful, abusive, or materially inconsistent with the purpose of the website.
-          For questions, contact info@globaldealzllc.site or +1 (901) 443-2051.
+          For questions, contact info@globaldealz.site or +1 (901) 443-2051.
         </p>
       </section>
     </LegalPage>

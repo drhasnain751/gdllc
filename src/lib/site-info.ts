@@ -2,7 +2,7 @@ export const GLOBALDEALZ = {
   companyName: "GlobalDealz LLC",
   brandName: "GlobalDealz Infrastructure",
   website: "https://globaldealzllc.site",
-  email: "info@globaldealzllc.site",
+  email: "info@globaldealz.site",
   phone: "+1 (901) 443-2051",
   whatsappNumber: "+19014432051",
   whatsappUrl:

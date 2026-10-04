@@ -55,7 +55,7 @@ function RefundPolicy() {
       <section>
         <h2>Contact</h2>
         <p>
-          Cancellation or refund requests should be sent to info@globaldealzllc.site or +1 (901)
+          Cancellation or refund requests should be sent to info@globaldealz.site or +1 (901)
           443-2051. Final terms will be governed by the signed service agreement governing the
           relevant engagement.
         </p>

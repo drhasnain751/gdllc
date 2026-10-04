@@ -142,6 +142,48 @@ const services = [
   },
 ];
 
+const mediaHighlights = [
+  {
+    title: "Fulfillment flow",
+    copy: "Inventory, packaging, and dispatch synchronized across key growth markets.",
+    image:
+      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    title: "Operations desk",
+    copy: "Commercial planning and operational visibility in one place.",
+    image:
+      "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    title: "Market expansion",
+    copy: "Infrastructure built to support global storefront execution.",
+    image:
+      "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80",
+  },
+];
+
+const teamMembers = [
+  {
+    name: "Operations Director",
+    role: "Warehouse & fulfillment coordination",
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    name: "Commercial Lead",
+    role: "Market launch and channel planning",
+    image:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    name: "Partner Operations",
+    role: "Network execution and reporting",
+    image:
+      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=900&q=80",
+  },
+];
+
 function DashboardMockup() {
   const frameRef = useRef<HTMLDivElement | null>(null);
   const [rotation, setRotation] = useState({ x: 18, y: -18, z: 0 });
@@ -386,6 +428,131 @@ function WorldMap() {
         ))}
       </div>
     </div>
+  );
+}
+
+function MediaShowcase() {
+  return (
+    <section className="border-y border-border bg-[#061633] py-24 text-white lg:py-32">
+      <div className="mx-auto max-w-7xl px-5 lg:px-8">
+        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">
+              Real operational motion
+            </p>
+            <h2 className="mt-4 max-w-2xl text-4xl font-light sm:text-5xl">
+              Stronger visuals. Sharper execution.
+            </h2>
+          </div>
+
+          <p className="max-w-lg text-sm leading-7 text-slate-300">
+            A premium infrastructure narrative built around commerce movement,
+            warehouse rhythm, and global coordination.
+          </p>
+        </div>
+
+        <div className="mt-14 grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
+          <div className="group relative overflow-hidden rounded-[32px] border border-cyan-400/25 bg-[#081a31] shadow-[0_35px_120px_rgba(0,178,238,0.15)]">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(0,178,238,0.28),transparent_30%),radial-gradient(circle_at_80%_10%,rgba(96,165,250,0.18),transparent_25%)]" />
+
+            <video
+              className="h-[430px] w-full object-cover opacity-90 transition duration-700 group-hover:scale-[1.03]"
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="https://images.unsplash.com/photo-1553413077-190dd305871c?auto=format&fit=crop&w=1600&q=80"
+            >
+              <source
+                src="https://cdn.coverr.co/videos/coverr-warehouse-workers-moving-boxes-1562242987660/1080p.mp4"
+                type="video/mp4"
+              />
+            </video>
+
+            <div className="absolute inset-0 bg-gradient-to-t from-[#04101d] via-[#04101d]/25 to-transparent" />
+
+            <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-8">
+              <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300/25 bg-slate-950/60 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-cyan-200 backdrop-blur">
+                <span className="size-2 rounded-full bg-cyan-300 shadow-[0_0_12px_rgba(0,178,238,0.9)]" />
+                Warehouse motion
+              </div>
+
+              <h3 className="mt-5 max-w-md text-2xl font-light text-white sm:text-3xl">
+                Inventory and fulfillment aligned to the markets that matter.
+              </h3>
+            </div>
+          </div>
+
+          <div className="grid gap-6">
+            {mediaHighlights.map((item) => (
+              <article
+                key={item.title}
+                className="group relative overflow-hidden rounded-[28px] border border-white/10 bg-card"
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-[#081827] via-[#081827]/35 to-transparent" />
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="h-48 w-full object-cover transition duration-700 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-x-0 bottom-0 p-5">
+                  <p className="text-[10px] font-medium uppercase tracking-[0.2em] text-cyan-300">
+                    {item.title}
+                  </p>
+                  <p className="mt-3 text-sm leading-6 text-slate-200">
+                    {item.copy}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TeamSection() {
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-24 lg:px-8 lg:py-32">
+      <div className="max-w-3xl">
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">
+          People behind the operations
+        </p>
+        <h2 className="mt-4 text-4xl font-light leading-tight sm:text-5xl">
+          A focused team supporting commercial execution globally.
+        </h2>
+      </div>
+
+      <div className="mt-12 grid gap-6 md:grid-cols-3">
+        {teamMembers.map((member) => (
+          <article
+            key={member.name}
+            className="group overflow-hidden rounded-[28px] border border-border bg-card shadow-[0_15px_50px_rgba(2,6,23,0.16)] transition duration-300 hover:-translate-y-2 hover:border-cyan-400/30"
+          >
+            <div className="overflow-hidden">
+              <img
+                src={member.image}
+                alt={member.name}
+                className="h-[330px] w-full object-cover transition duration-700 group-hover:scale-105"
+                loading="lazy"
+              />
+            </div>
+
+            <div className="space-y-3 p-6">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-cyan-300">
+                Team
+              </p>
+              <h3 className="text-2xl font-light text-white">{member.name}</h3>
+              <p className="text-sm leading-7 text-muted-foreground">
+                {member.role}
+              </p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -1190,6 +1357,14 @@ function HomePage() {
           className="grid-fade relative flex min-h-[760px] scroll-mt-20 items-center border-b border-border pt-28"
         >
           <div className="hero-glow absolute inset-0 bg-[radial-gradient(circle_at_70%_38%,rgba(0,178,238,0.18),transparent_36%)]" />
+          <div className="absolute inset-0 opacity-90 [background-image:linear-gradient(rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.08)_1px,transparent_1px)] [background-size:32px_32px] [mask-image:radial-gradient(circle_at_center,black_45%,transparent_100%)]" />
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute -left-10 top-16 h-56 w-56 rounded-full bg-cyan-400/12 blur-3xl" />
+            <div className="absolute right-8 top-12 h-64 w-64 rounded-full bg-sky-500/10 blur-3xl" />
+            <div className="absolute bottom-10 left-1/3 h-52 w-52 rounded-full bg-blue-500/8 blur-3xl" />
+            <div className="absolute inset-x-0 top-0 h-full opacity-80" style={{backgroundImage: "linear-gradient(transparent 0%, rgba(0,178,238,0.06) 52%, transparent 100%)"}} />
+            <div className="absolute inset-0" style={{background: "radial-gradient(circle at 25% 35%, rgba(0,178,238,0.08), transparent 28%), radial-gradient(circle at 78% 28%, rgba(59,130,246,0.07), transparent 24%), radial-gradient(circle at 60% 72%, rgba(45,212,191,0.06), transparent 26%)"}} />
+          </div>
 
           <div className="relative mx-auto grid max-w-7xl items-center gap-16 px-5 py-20 lg:grid-cols-[.92fr_1.08fr] lg:px-8">
             <div className="reveal">
@@ -1457,207 +1632,198 @@ function HomePage() {
           </div>
         </section>
 
+        <MediaShowcase />
+
         {/* =====================================================
-            JOINT VENTURES
-        ===================================================== */}
-
+                    JOINT VENTURES
+                            ===================================================== */}
+                            
         <section
-          id="joint-ventures"
-          className="scroll-mt-20 mx-auto max-w-7xl px-5 py-24 lg:px-8 lg:py-32"
-        >
-          <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">
-              How to get started
-            </p>
-
+                  id="joint-ventures"
+                            className="scroll-mt-20 mx-auto max-w-7xl px-5 py-24 lg:px-8 lg:py-32"
+                                    >
+                                              <div className="text-center">
+                                                          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300">
+                                                                        How to get started
+                                                                                    </p>
+                                                                                    
             <h2 className="mt-4 text-4xl font-light sm:text-5xl">
-              From model to momentum.
-            </h2>
-          </div>
-
+                          From model to momentum.
+                                      </h2>
+                                                </div>
+                                                
           <div className="relative mt-16 grid gap-8 md:grid-cols-3">
-            <div className="absolute left-[16.5%] right-[16.5%] top-6 hidden h-px bg-border md:block" />
-
+                      <div className="absolute left-[16.5%] right-[16.5%] top-6 hidden h-px bg-border md:block" />
+                      
             {[
-              [
-                "01",
-                "Select Your Model",
-                "Choose standalone infrastructure services or a more complete operating model.",
-              ],
-              [
-                "02",
-                "Onboarding & Setup",
-                "We align company structure, payment infrastructure, and warehouse alignment for your route to market.",
-              ],
-              [
-                "03",
-                "Launch & Scale",
-                "Product research, marketplace operation, and operational oversight move into execution.",
-              ],
-            ].map(([number, title, copy]) => (
-              <article
-                key={number}
-                className="step-card relative rounded-[28px] border border-border bg-card p-7 shadow-sm"
-              >
-                <span className="relative z-10 grid size-12 place-items-center rounded-full border border-border bg-background text-sm font-semibold text-cyan-300">
-                  {number}
-                </span>
-
+                          [
+                                          "01",
+                                                          "Select Your Model",
+                                                                          "Choose standalone infrastructure services or a more complete operating model.",
+                                                                                        ],
+                                                                                                      [
+                                                                                                                      "02",
+                                                                                                                                      "Onboarding & Setup",
+                                                                                                                                                      "We align company structure, payment infrastructure, and warehouse alignment for your route to market.",
+                                                                                                                                                                    ],
+                                                                                                                                                                                  [
+                                                                                                                                                                                                  "03",
+                                                                                                                                                                                                                  "Launch & Scale",
+                                                                                                                                                                                                                                  "Product research, marketplace operation, and operational oversight move into execution.",
+                                                                                                                                                                                                                                                ],
+                                                                                                                                                                                                                                                            ].map(([number, title, copy]) => (
+                                                                                                                                                                                                                                                                          <article
+                                                                                                                                                                                                                                                                                          key={number}
+                                                                                                                                                                                                                                                                                                          className="step-card relative rounded-[28px] border border-border bg-card p-7 shadow-sm"
+                                                                                                                                                                                                                                                                                                                        >
+                                                                                                                                                                                                                                                                                                                                        <span className="relative z-10 grid size-12 place-items-center rounded-full border border-border bg-background text-sm font-semibold text-cyan-300">
+                                                                                                                                                                                                                                                                                                                                                          {number}
+                                                                                                                                                                                                                                                                                                                                                                          </span>
+                                                                                                                                                                                                                                                                                                                                                                          
                 <h3 className="mt-7 text-xl font-medium">{title}</h3>
-
+                
                 <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                  {copy}
-                </p>
-              </article>
-            ))}
-          </div>
-        </section>
-
+                                  {copy}
+                                                  </p>
+                                                                </article>
+                                                                            ))}
+                                                                                      </div>
+                                                                                              </section>
+                                                                                              
+        <TeamSection />
+        
         {/* =====================================================
-            RESULTS
-        ===================================================== */}
-
+                    RESULTS
+                            ===================================================== */}
+                            
         <section
-  id="results"
-  className="scroll-mt-20 border-y border-border bg-muted/45 py-20"
->
-  <div className="mx-auto max-w-7xl px-5 lg:px-8">
-    <div
-      className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
-      style={{
-        animation: "resultsFadeIn 800ms cubic-bezier(.16,1,.3,1) both",
-      }}
-    >
-      Illustrative performance snapshot
-    </div>
-
-    <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[28px] border border-cyan-400/10 bg-cyan-400/10 [perspective:1400px] lg:grid-cols-4">
-      {[
-        {
-          v: 2.5,
-          p: "$",
-          s: "M+",
-          l: "Sales processed",
-          icon: CircleDollarSign,
-        },
-        {
-          v: 4,
-          p: "",
-          s: "",
-          l: "Strategic markets",
-          icon: Globe2,
-        },
-        {
-          v: 98.5,
-          p: "",
-          s: "%",
-          l: "Positive rating",
-          icon: ShieldCheck,
-        },
-        {
-          v: 3.8,
-          p: "",
-          s: "x",
-          l: "Peak ROAS",
-          icon: Sparkles,
-        },
-      ].map((m, index) => {
-        const Icon = m.icon;
-
-        return (
-          <div
-            key={m.l}
-            className="group relative min-h-[190px] overflow-hidden bg-background p-6 [transform-style:preserve-3d] transition-all duration-700 ease-out hover:-translate-y-2 hover:[transform:rotateX(5deg)_rotateY(-4deg)_translateZ(20px)] sm:p-8"
-            style={{
-              animation: `metricReveal 850ms cubic-bezier(.16,1,.3,1) ${
-                150 + index * 120
-              }ms both`,
-            }}
-          >
-            {/* Ambient 3D glow */}
-            <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-cyan-400/[0.06] blur-3xl transition-all duration-700 group-hover:scale-125 group-hover:bg-cyan-400/[0.15]" />
-
-            {/* Perspective grid */}
-            <div
-              className="pointer-events-none absolute inset-0 opacity-[0.035] transition-opacity duration-500 group-hover:opacity-[0.08]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(rgba(0,178,238,.8) 1px, transparent 1px), linear-gradient(90deg, rgba(0,178,238,.8) 1px, transparent 1px)",
-                backgroundSize: "24px 24px",
-              }}
-            />
-
-            {/* Top light edge */}
-            <div className="pointer-events-none absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent opacity-40 transition-opacity duration-500 group-hover:opacity-100" />
-
-            {/* Icon + index */}
-            <div className="relative z-10 mb-8 flex items-center justify-between [transform:translateZ(35px)]">
-              <div className="flex size-10 items-center justify-center rounded-xl border border-cyan-400/15 bg-cyan-400/[0.05] text-cyan-300 transition-all duration-500 group-hover:-translate-y-1 group-hover:rotate-6 group-hover:border-cyan-400/40 group-hover:bg-cyan-400/[0.12] group-hover:shadow-[0_10px_35px_rgba(0,178,238,0.18)]">
-                <Icon className="size-4" strokeWidth={1.5} />
-              </div>
-
-              <span className="text-[9px] font-semibold uppercase tracking-[0.22em] text-muted-foreground/30 transition-colors duration-500 group-hover:text-cyan-300/60">
-                0{index + 1}
-              </span>
-            </div>
-
-            {/* Number */}
-            <div className="relative z-10 [transform:translateZ(45px)]">
-              <p className="text-3xl font-light tracking-tight text-foreground transition-all duration-500 group-hover:text-cyan-50 group-hover:[text-shadow:0_0_25px_rgba(0,178,238,0.22)] sm:text-4xl">
-                <CountUp
-                  value={m.v}
-                  prefix={m.p}
-                  suffix={m.s}
-                />
-              </p>
-
-              <p className="mt-3 text-xs text-muted-foreground transition-colors duration-500 group-hover:text-foreground/80 sm:text-sm">
-                {m.l}
-              </p>
-            </div>
-
-            {/* Bottom depth glow */}
-            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-cyan-400/[0.04] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-
-            {/* Animated scan line */}
-            <div className="pointer-events-none absolute left-0 right-0 top-0 h-px -translate-y-full bg-gradient-to-r from-transparent via-cyan-300/70 to-transparent opacity-0 transition-all duration-[1200ms] group-hover:translate-y-[190px] group-hover:opacity-100" />
-
-            {/* 3D bottom edge */}
-            <div className="pointer-events-none absolute bottom-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-          </div>
-        );
-      })}
-    </div>
-  </div>
-
-  <style>{`
-    @keyframes metricReveal {
-      0% {
-        opacity: 0;
-        transform: translateY(40px) rotateX(12deg) scale(.94);
-        filter: blur(7px);
-      }
-
-      100% {
-        opacity: 1;
-        transform: translateY(0) rotateX(0) scale(1);
-        filter: blur(0);
-      }
-    }
-
-    @keyframes resultsFadeIn {
-      0% {
-        opacity: 0;
-        transform: translateY(15px);
-      }
-
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  `}</style>
-</section>
+                  id="results"
+                            className="scroll-mt-20 border-y border-border bg-muted/45 py-20"
+                                    >
+                                              <div className="mx-auto max-w-7xl px-5 lg:px-8">
+                                                          <div
+                                                                        className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground"
+                                                                                      style={{
+                                                                                                      animation: "resultsFadeIn 800ms cubic-bezier(.16,1,.3,1) both",
+                                                                                                                    }}
+                                                                                                                                >
+                                                                                                                                              Illustrative performance snapshot
+                                                                                                                                                          </div>
+                                                                                                                                                          
+            <div className="grid grid-cols-2 gap-px overflow-hidden rounded-[28px] border border-cyan-400/10 bg-cyan-400/10 [perspective:1400px] lg:grid-cols-4">
+                          {[{
+                                            v: 2.5,
+                                                              p: "$",
+                                                                                s: "M+",
+                                                                                                  l: "Sales processed",
+                                                                                                                    icon: CircleDollarSign,
+                                                                                                                                    },
+                                                                                                                                                    {
+                                                                                                                                                                      v: 4,
+                                                                                                                                                                                        p: "",
+                                                                                                                                                                                                          s: "",
+                                                                                                                                                                                                                            l: "Strategic markets",
+                                                                                                                                                                                                                                              icon: Globe2,
+                                                                                                                                                                                                                                                              },
+                                                                                                                                                                                                                                                                              {
+                                                                                                                                                                                                                                                                                                v: 98.5,
+                                                                                                                                                                                                                                                                                                                  p: "",
+                                                                                                                                                                                                                                                                                                                                    s: "%",
+                                                                                                                                                                                                                                                                                                                                                      l: "Positive rating",
+                                                                                                                                                                                                                                                                                                                                                                        icon: ShieldCheck,
+                                                                                                                                                                                                                                                                                                                                                                                        },
+                                                                                                                                                                                                                                                                                                                                                                                                        {
+                                                                                                                                                                                                                                                                                                                                                                                                                          v: 3.8,
+                                                                                                                                                                                                                                                                                                                                                                                                                                            p: "",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                              s: "x",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                l: "Peak ROAS",
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  icon: Sparkles,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  },].map((m, index) => {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  const Icon = m.icon;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+                return (
+                                  <div
+                                                      key={m.l}
+                                                                          className="group relative min-h-[190px] overflow-hidden bg-background p-6 [transform-style:preserve-3d] transition-all duration-700 ease-out hover:-translate-y-2 hover:[transform:rotateX(5deg)_rotateY(-4deg)_translateZ(20px)] sm:p-8"
+                                                                                              style={{
+                                                                                                                    animation: `metricReveal 850ms cubic-bezier(.16,1,.3,1) ${
+                                                                                                                                            150 + index * 120
+                                                                                                                                                                  }ms both`,
+                                                                                                                                                                                      }}
+                                                                                                                                                                                                        >
+                                                                                                                                                                                                                            <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-cyan-400/[0.06] blur-3xl transition-all duration-700 group-hover:scale-125 group-hover:bg-cyan-400/[0.15]" />
+                                                                                                                                                                                                                            
+                    <div
+                                          className="pointer-events-none absolute inset-0 opacity-[0.035] transition-opacity duration-500 group-hover:opacity-[0.08]"
+                                                                style={{
+                                                                                        backgroundImage:
+                                                                                                                          "linear-gradient(rgba(0,178,238,.8) 1px, transparent 1px), linear-gradient(90deg, rgba(0,178,238,.8) 1px, transparent 1px)",
+                                                                                                                                                  backgroundSize: "24px 24px",
+                                                                                                                                                                        }}
+                                                                                                                                                                                            />
+                                                                                                                                                                                            
+                    <div className="pointer-events-none absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent opacity-40 transition-opacity duration-500 group-hover:opacity-100" />
+                    
+                    <div className="relative z-10 mb-8 flex items-center justify-between [transform:translateZ(35px)]">
+                                          <div className="flex size-10 items-center justify-center rounded-xl border border-cyan-400/15 bg-cyan-400/[0.05] text-cyan-300 transition-all duration-500 group-hover:-translate-y-1 group-hover:rotate-6 group-hover:border-cyan-400/40 group-hover:bg-cyan-400/[0.12] group-hover:shadow-[0_10px_35px_rgba(0,178,238,0.18)]">
+                                                                  <Icon className="size-4" strokeWidth={1.5} />
+                                                                                        </div>
+                                                                                        
+                      <span className="text-[9px] font-semibold uppercase tracking-[0.22em] text-muted-foreground/30 transition-colors duration-500 group-hover:text-cyan-300/60">
+                                              0{index + 1}
+                                                                    </span>
+                                                                                        </div>
+                                                                                        
+                    <div className="relative z-10 [transform:translateZ(45px)]">
+                                          <p className="text-3xl font-light tracking-tight text-foreground transition-all duration-500 group-hover:text-cyan-50 group-hover:[text-shadow:0_0_25px_rgba(0,178,238,0.22)] sm:text-4xl">
+                                                                  <CountUp value={m.v} prefix={m.p} suffix={m.s} />
+                                                                                        </p>
+                                                                                        
+                      <p className="mt-3 text-xs text-muted-foreground transition-colors duration-500 group-hover:text-foreground/80 sm:text-sm">
+                                              {m.l}
+                                                                    </p>
+                                                                                        </div>
+                                                                                        
+                    <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-cyan-400/[0.04] to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                    
+                    <div className="pointer-events-none absolute left-0 right-0 top-0 h-px -translate-y-full bg-gradient-to-r from-transparent via-cyan-300/70 to-transparent opacity-0 transition-all duration-[1200ms] group-hover:translate-y-[190px] group-hover:opacity-100" />
+                    
+                    <div className="pointer-events-none absolute bottom-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-cyan-400/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                                      </div>
+                                                      );
+                                                                    })}
+                                                                                </div>
+                                                                                
+            <style>{`
+                          @keyframes metricReveal {
+                                          0% {
+                                                            opacity: 0;
+                                                                              transform: translateY(40px) rotateX(12deg) scale(0.94);
+                                                                                                filter: blur(7px);
+                                                                                                                }
+                                                                                                                
+                100% {
+                                  opacity: 1;
+                                                    transform: translateY(0) rotateX(0) scale(1);
+                                                                      filter: blur(0);
+                                                                                      }
+                                                                                                    }
+                                                                                                    
+              @keyframes resultsFadeIn {
+                              0% {
+                                                opacity: 0;
+                                                                  transform: translateY(15px);
+                                                                                  }
+                                                                                  
+                100% {
+                                  opacity: 1;
+                                                    transform: translateY(0);
+                                                                    }
+                                                                                  }
+                                                                                              `}</style>
+                                                                                                        </div>
+                                                                                                                </section>
+                                                                                                                
         {/* =====================================================
             COMPANY
         ===================================================== */}
@@ -1732,7 +1898,7 @@ function HomePage() {
                 {
                   icon: Mail,
                   label: "Contact Email",
-                  value: "info@globaldealzllc.site",
+                  value: "info@globaldealz.site",
                 },
                 {
                   icon: Headphones,

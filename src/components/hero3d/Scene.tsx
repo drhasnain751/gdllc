@@ -15,6 +15,7 @@ function SceneInner({ reducedMotion }: { reducedMotion: boolean }) {
     const onScroll = () => {
       const hero = document.getElementById("home");
       if (!hero) return;
+
       const rect = hero.getBoundingClientRect();
       const total = Math.max(window.innerHeight + rect.height, 1);
       const progress = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / total));
@@ -32,73 +33,58 @@ function SceneInner({ reducedMotion }: { reducedMotion: boolean }) {
   }, []);
 
   useFrame((_, delta) => {
-    // stronger, phased camera progression for distinct visual states
     const pointerX = reducedMotion ? 0 : pointer.x;
     const pointerY = reducedMotion ? 0 : pointer.y;
 
-    // Phase mapping: 0-0.25 (distant), 0.25-0.55 (approach), 0.55-0.85 (turn), 0.85-1 (front)
-    let camTarget = { x: 0, y: 0.72, z: 6.2 };
-    if (scrollProgress < 0.25) {
-      camTarget = { x: pointerX * 0.2, y: 0.82 + pointerY * 0.04, z: 7.2 };
-    } else if (scrollProgress < 0.55) {
-      const t = (scrollProgress - 0.25) / 0.3;
-      camTarget = { x: pointerX * 0.28, y: 0.78 + t * 0.18 + pointerY * 0.06, z: 6.2 - t * 1.4 };
-    } else if (scrollProgress < 0.85) {
-      const t = (scrollProgress - 0.55) / 0.3;
-      camTarget = { x: pointerX * 0.36, y: 0.9 - t * 0.12 + pointerY * 0.08, z: 4.8 - t * 0.8 };
-    } else {
-      const t = (scrollProgress - 0.85) / 0.15;
-      camTarget = { x: pointerX * 0.44, y: 0.78 + t * 0.2 + pointerY * 0.12, z: 4.0 - t * 0.6 };
-    }
+    const camTarget = {
+      x: pointerX * 0.18,
+      y: 0.72 + pointerY * 0.12,
+      z: reducedMotion ? 5.8 : 5.9 - scrollProgress * 0.7,
+    };
 
-    camera.position.x = MathUtils.lerp(camera.position.x, camTarget.x, 0.06);
-    camera.position.y = MathUtils.lerp(camera.position.y, camTarget.y, 0.06);
-    camera.position.z = MathUtils.lerp(camera.position.z, camTarget.z, 0.06);
+    camera.position.x = MathUtils.damp(camera.position.x, camTarget.x, 4.5, delta);
+    camera.position.y = MathUtils.damp(camera.position.y, camTarget.y, 4.5, delta);
+    camera.position.z = MathUtils.damp(camera.position.z, camTarget.z, 4.5, delta);
     camera.lookAt(0, 0, 0);
 
     if (!groupRef.current) return;
 
-    // group rotation/position with stronger phase-dependent values
-    const rotXTarget = reducedMotion ? 0.12 : -0.6 + scrollProgress * 1.6 + pointerY * 0.36;
-    const rotYTarget = reducedMotion ? 0.62 : 0.6 + scrollProgress * 1.1 + pointerX * 0.6;
-    const rotZTarget = reducedMotion ? 0.15 : -0.18 + scrollProgress * 0.9;
+    const rotXTarget = reducedMotion ? 0.2 : -0.5 + scrollProgress * 0.6 + pointerY * 0.28;
+    const rotYTarget = reducedMotion ? 0.6 : 0.65 + scrollProgress * 0.5 + pointerX * 0.38;
+    const rotZTarget = reducedMotion ? 0.08 : 0.12 + scrollProgress * 0.12;
 
-    groupRef.current.rotation.x = MathUtils.lerp(groupRef.current.rotation.x, rotXTarget, 0.06);
-    groupRef.current.rotation.y = MathUtils.lerp(groupRef.current.rotation.y, rotYTarget, 0.06);
-    groupRef.current.rotation.z = MathUtils.lerp(groupRef.current.rotation.z, rotZTarget, 0.06);
+    groupRef.current.rotation.x = MathUtils.damp(groupRef.current.rotation.x, rotXTarget, 5.5, delta);
+    groupRef.current.rotation.y = MathUtils.damp(groupRef.current.rotation.y, rotYTarget, 5.5, delta);
+    groupRef.current.rotation.z = MathUtils.damp(groupRef.current.rotation.z, rotZTarget, 5.5, delta);
 
-    groupRef.current.position.x = MathUtils.lerp(groupRef.current.position.x, pointerX * 0.28, 0.06);
-    groupRef.current.position.y = MathUtils.lerp(groupRef.current.position.y, 0.08 + pointerY * 0.12 + scrollProgress * 0.45 - 0.15, 0.06);
-
-    // subtle continuous spin for life
-    const targetGroup = groupRef.current;
-    targetGroup.rotation.x += delta * 0.05;
+    groupRef.current.position.x = MathUtils.damp(groupRef.current.position.x, pointerX * 0.24, 4.5, delta);
+    groupRef.current.position.y = MathUtils.damp(groupRef.current.position.y, 0.18 + pointerY * 0.12, 4.5, delta);
   });
 
-  const panelSize = typeof window !== "undefined" && window.innerWidth < 768 ? 1.15 : 1;
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   return (
     <>
       <color attach="background" args={["#061633"]} />
-      <fog attach="fog" args={["#061633", 4, 12]} />
-      <PerspectiveCamera makeDefault position={[0, 0.72, 6.2]} fov={36} />
-      <ambientLight intensity={0.72} />
+      <fog attach="fog" args={["#061633", 5, 12]} />
+      <PerspectiveCamera makeDefault position={[0, 0.72, 5.9]} fov={34} />
+      <ambientLight intensity={0.7} />
       <hemisphereLight args={["#0b2340", "#00111a", 0.45]} />
-      <directionalLight position={[4, 5, 4]} intensity={1.2} color="#00B2EE" />
+      <directionalLight position={[4, 5, 4]} intensity={1.1} color="#00B2EE" />
       <directionalLight position={[-5, 1, -3]} intensity={0.5} color="#d7f5ff" />
-      <pointLight position={[0, 0, 3]} intensity={0.6} color="#00B2EE" />
+      <pointLight position={[0, 0, 3]} intensity={0.5} color="#00B2EE" />
 
-      <group ref={groupRef} scale={panelSize}>
+      <group ref={groupRef} scale={isMobile ? 0.9 : 1}>
         <Console />
         <FloatingPanels reducedMotion={reducedMotion} />
       </group>
 
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.95, 0]} receiveShadow>
-        <circleGeometry args={[6, 64]} />
-        <meshStandardMaterial color="#071a2f" metalness={0.3} roughness={0.85} />
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.85, 0]} receiveShadow>
+        <circleGeometry args={[5.5, 48]} />
+        <meshStandardMaterial color="#071a2f" metalness={0.2} roughness={0.8} />
       </mesh>
 
-      <Text position={[0, 2.05, -0.7]} fontSize={0.2} color="#f1f6fb" anchorX="center" anchorY="middle">
+      <Text position={[0, 2.05, -0.7]} fontSize={0.18} color="#f1f6fb" anchorX="center" anchorY="middle">
         Illustrative Dashboard — Demo Data
       </Text>
     </>
@@ -111,10 +97,11 @@ export function Scene({ reducedMotion = false }: { reducedMotion?: boolean }) {
   return (
     <Canvas
       className="h-full w-full"
-      dpr={isMobile ? [1, 1.5] : [1, 2]}
-      gl={{ antialias: true, alpha: true }}
-      shadows
+      dpr={isMobile ? [1, 1.4] : [1, 1.8]}
+      gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+      shadows={false}
       style={{ touchAction: "none" }}
+      frameloop="always"
     >
       <SceneInner reducedMotion={reducedMotion} />
     </Canvas>

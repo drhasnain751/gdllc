@@ -61,13 +61,13 @@ function Privacy() {
           We retain information only as long as needed to fulfill the purpose for which it was
           collected, satisfy legal obligations, or manage ongoing business communications. If you
           need to update or request information about your communication history, contact
-          info@globaldealzllc.site.
+          info@globaldealz.site.
         </p>
       </section>
       <section>
         <h2>Contact</h2>
         <p>
-          Questions about this Privacy Policy should be directed to info@globaldealzllc.site or +1
+          Questions about this Privacy Policy should be directed to info@globaldealz.site or +1
           (901) 443-2051.
         </p>
       </section>

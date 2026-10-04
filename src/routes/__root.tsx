@@ -36,11 +36,11 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
   console.error(error);
   const router = useRouter();
   useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    reportLovableError(error as Error, { boundary: "tanstack_root_error_component" });
   }, [error]);
 
   return (
@@ -80,8 +80,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "author", content: "GlobalDealzLLC" },
+      { name: "title", content: "GlobalDealz LLC | Global E-Commerce Infrastructure" },
+      { name: "description", content: "GlobalDealz LLC provides global e-commerce infrastructure, managed operations, warehousing, and growth infrastructure for scale-ready businesses." },
       { property: "og:type", content: "website" },
+      { property: "og:title", content: "GlobalDealz LLC | Global E-Commerce Infrastructure" },
+      { property: "og:description", content: "Global commerce infrastructure, fulfillment coordination, and operational support for ambitious brands." },
+      { property: "og:site_name", content: "GlobalDealz LLC" },
+      { property: "og:image", content: "/favicon.svg" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "GlobalDealz LLC | Global E-Commerce Infrastructure" },
+      { name: "twitter:description", content: "Global e-commerce infrastructure and logistics support built for scale." },
     ],
     links: [
       {
@@ -95,7 +103,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap",
       },
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
-      { rel: "apple-touch-icon", href: "/favicon.svg" },
+      { rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/favicon-32x32.png", sizes: "180x180" },
+      { rel: "mask-icon", href: "/favicon.svg", color: "#00B2EE" },
     ],
   }),
   shellComponent: RootShell,
@@ -109,6 +120,16 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                // Apply dark mode immediately to prevent flash
+                document.documentElement.classList.add('dark');
+              })();
+            `,
+          }}
+        />
       </head>
       <body>
         {children}
