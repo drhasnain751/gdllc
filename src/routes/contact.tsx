@@ -427,7 +427,9 @@ function ContactInquiryForm() {
       formElement.reset();
       setServiceNeeded("");
       setStatus("success");
-    } catch {
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "We couldn't send your request right now. Please email info@globaldealz.site directly.";
+      setErrors({ form: message });
       setStatus("error");
     }
   };
@@ -440,7 +442,7 @@ function ContactInquiryForm() {
         </span>
         <h3 className="mt-6 text-2xl font-medium">Your request is in.</h3>
         <p className="mt-3 max-w-sm text-muted-foreground">
-          Thank you. Our team will review your request and follow up by email.
+          Thank you. Your request has been sent successfully. Our team will contact you shortly.
         </p>
         <Button className="mt-7 rounded-full" variant="outline" onClick={() => setStatus("idle")}>
           Send another request
@@ -452,7 +454,7 @@ function ContactInquiryForm() {
   return (
     <form onSubmit={onSubmit} className="grid gap-5" noValidate>
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Name" error={errors["name"]}>
+        <Field label="Name" error={errors["name"] || errors["form"]}>
           <Input name="name" placeholder="Your full name" maxLength={100} className="h-12 rounded-xl" />
         </Field>
         <Field label="Company" error={errors["company"]}>
@@ -461,15 +463,15 @@ function ContactInquiryForm() {
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Email" error={errors["email"]}>
+        <Field label="Email" error={errors["email"] || errors["form"]}>
           <Input name="email" type="email" placeholder="you@company.com" maxLength={255} className="h-12 rounded-xl" />
         </Field>
-        <Field label="Phone" error={errors["phone"]}>
+        <Field label="Phone" error={errors["phone"] || errors["form"]}>
           <Input name="phone" type="tel" placeholder="(555) 123-4567" maxLength={40} className="h-12 rounded-xl" />
         </Field>
       </div>
 
-      <Field label="Service needed" error={errors["serviceNeeded"]}>
+      <Field label="Service needed" error={errors["serviceNeeded"] || errors["form"]}>
         <Select value={serviceNeeded} onValueChange={setServiceNeeded}>
           <SelectTrigger className="h-12 rounded-xl">
             <SelectValue placeholder="Select a service" />
@@ -488,7 +490,7 @@ function ContactInquiryForm() {
         </Select>
       </Field>
 
-      <Field label="What are you looking to build?" error={errors["message"]}>
+      <Field label="What are you looking to build?" error={errors["message"] || errors["form"]}>
         <Textarea
           name="message"
           rows={5}
@@ -502,7 +504,7 @@ function ContactInquiryForm() {
 
       {status === "error" && (
         <p className="text-sm text-destructive" role="alert">
-          We couldn’t save your request. Please try again or email {GLOBALDEALZ.email}.
+          We couldn't send your request right now. Please email info@globaldealz.site directly.
         </p>
       )}
 

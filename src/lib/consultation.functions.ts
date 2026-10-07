@@ -1,5 +1,4 @@
 import { createServerFn } from "@tanstack/react-start";
-import nodemailer from "nodemailer";
 import { z } from "zod";
 
 const optionalText = (max: number, fieldName: string, minLength = 0) =>
@@ -92,7 +91,13 @@ async function sendConsultationEmail(data: z.infer<typeof consultationSchema>) {
     throw new Error("EMAIL_SERVICE_UNAVAILABLE");
   }
 
-  const transporter = nodemailer.createTransport({
+  // Lazy-load nodemailer at runtime so the Vite bundler doesn't try to resolve
+  // it while building client-side artifacts. This keeps SMTP creds server-only
+  // and avoids rollup resolution errors in the cloud build environment.
+  const mailerModule = (await import("nodemailer")) as any;
+  const nodemailerLib = mailerModule.default ?? mailerModule;
+
+  const transporter = nodemailerLib.createTransport({
     host: smtpHost,
     port: smtpPort,
     secure: smtpSecure,
