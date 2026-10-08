@@ -79,36 +79,30 @@ export function SiteFooter() {
 
       <div className="border-t border-border px-5 py-8 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-6 md:grid-cols-3 mb-6">
-            <div className="flex gap-3">
-              <MapPin className="h-5 w-5 text-accent-strong flex-shrink-0 mt-0.5" />
-              <div className="text-sm">
-                <p className="font-semibold text-dark-panel-foreground">{GLOBALDEALZ.companyName}</p>
-                <address className="not-italic leading-5 text-dark-panel-foreground/80 mt-1">
-                  {GLOBALDEALZ.address}
-                </address>
+          <div className="mb-6">
+            <div className="text-sm text-dark-panel-foreground/80">
+              <div className="flex items-start gap-3 mb-3">
+                <MapPin className="h-5 w-5 text-accent-strong flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-semibold text-dark-panel-foreground">{GLOBALDEALZ.companyName}</p>
+                  <address className="not-italic leading-5 mt-1">
+                    {GLOBALDEALZ.address}
+                  </address>
+                </div>
               </div>
-            </div>
-
-            <div className="flex gap-3">
-              <Mail className="h-5 w-5 text-accent-strong flex-shrink-0 mt-0.5" />
-              <div className="text-sm">
-                <p className="font-semibold text-dark-panel-foreground">Email</p>
+              <div className="flex items-center gap-3 mb-2">
+                <Mail className="h-5 w-5 text-accent-strong flex-shrink-0" />
                 <a 
-                  className="text-dark-panel-foreground/80 hover:text-cyan-300 transition-colors" 
+                  className="hover:text-cyan-300 transition-colors" 
                   href={`mailto:${GLOBALDEALZ.email}`}
                 >
                   {GLOBALDEALZ.email}
                 </a>
               </div>
-            </div>
-
-            <div className="flex gap-3">
-              <Phone className="h-5 w-5 text-accent-strong flex-shrink-0 mt-0.5" />
-              <div className="text-sm">
-                <p className="font-semibold text-dark-panel-foreground">Phone</p>
+              <div className="flex items-center gap-3">
+                <Phone className="h-5 w-5 text-accent-strong flex-shrink-0" />
                 <a
-                  className="text-dark-panel-foreground/80 hover:text-cyan-300 transition-colors"
+                  className="hover:text-cyan-300 transition-colors"
                   href={`tel:${GLOBALDEALZ.phone.replace(/[^+0-9]/g, "")}`}
                 >
                   {GLOBALDEALZ.phone}
