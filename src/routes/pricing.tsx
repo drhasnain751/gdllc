@@ -29,6 +29,8 @@ export const Route = createFileRoute("/pricing")({
 const pricingTiers = [
   {
     name: "Core Infrastructure",
+    price: "$499",
+    priceSubtitle: "deposit",
     summary: "For businesses that need the right foundation before operating across marketplaces and regions.",
     items: [
       "Entity and structure planning",
@@ -39,6 +41,8 @@ const pricingTiers = [
   },
   {
     name: "Managed Operations & Sourcing",
+    price: "$999",
+    priceSubtitle: "deposit",
     summary: "For teams that need execution support across listings, catalog, sourcing, and ongoing operations.",
     items: [
       "Catalog and marketplace operational support",
@@ -49,6 +53,8 @@ const pricingTiers = [
   },
   {
     name: "Joint Venture Strategic Growth",
+    price: "Custom",
+    priceSubtitle: "quote",
     summary: "For qualified partners combining capital, audience, or operational capability with GlobalDealz infrastructure.",
     items: [
       "Partnership fit assessment",
@@ -102,6 +108,12 @@ function PricingPage() {
               >
                 <p className="text-xs font-semibold uppercase text-accent-strong">Service tier</p>
                 <h2 className="mt-4 text-3xl font-light">{tier.name}</h2>
+                
+                <div className="mt-3 flex items-baseline gap-2">
+                  <span className="text-2xl font-semibold">{tier.price}</span>
+                  <span className="text-sm text-muted-foreground">/ {tier.priceSubtitle}</span>
+                </div>
+
                 <p className="mt-4 text-sm leading-7 text-muted-foreground">{tier.summary}</p>
                 <div className="mt-8 space-y-3">
                   {tier.items.map((item) => (
@@ -111,13 +123,44 @@ function PricingPage() {
                     </p>
                   ))}
                 </div>
-                <Button
-                  variant={index === 1 ? "default" : "outline"}
-                  className="mt-9 w-full rounded-full"
-                  onClick={() => import("@/lib/site-info").then((m) => m.openConsultation())}
-                >
-                  Discuss this tier
-                </Button>
+                
+                <div className="mt-9 space-y-3">
+                  {index === 2 ? (
+                    <>
+                      <Button
+                        variant="outline"
+                        className="w-full rounded-full"
+                        onClick={() => import("@/lib/site-info").then((m) => m.openConsultation())}
+                      >
+                        Request Custom Quote
+                      </Button>
+                      <Button
+                        variant="default"
+                        className="w-full rounded-full"
+                        onClick={() => window.location.href = "/checkout"}
+                      >
+                        Pay Custom Deposit
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        variant={index === 1 ? "default" : "outline"}
+                        className="w-full rounded-full"
+                        onClick={() => window.location.href = "/checkout"}
+                      >
+                        Pay Deposit
+                      </Button>
+                      <Button
+                        variant={index === 1 ? "outline" : "outline"}
+                        className="w-full rounded-full"
+                        onClick={() => import("@/lib/site-info").then((m) => m.openConsultation())}
+                      >
+                        Discuss this tier
+                      </Button>
+                    </>
+                  )}
+                </div>
               </article>
             ))}
           </div>

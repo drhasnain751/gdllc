@@ -11,9 +11,12 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CaseStudiesRouteImport } from './routes/case-studies'
+import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as InfrastructureRouteImport } from './routes/infrastructure'
 import { Route as JointVenturesRouteImport } from './routes/joint-ventures'
+import { Route as PaymentCancelledRouteImport } from './routes/payment-cancelled'
+import { Route as PaymentSuccessRouteImport } from './routes/payment-success'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
@@ -30,6 +33,11 @@ const CaseStudiesRoute = CaseStudiesRouteImport.update({
   path: '/case-studies',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -43,6 +51,16 @@ const InfrastructureRoute = InfrastructureRouteImport.update({
 const JointVenturesRoute = JointVenturesRouteImport.update({
   id: '/joint-ventures',
   path: '/joint-ventures',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentCancelledRoute = PaymentCancelledRouteImport.update({
+  id: '/payment-cancelled',
+  path: '/payment-cancelled',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentSuccessRoute = PaymentSuccessRouteImport.update({
+  id: '/payment-success',
+  path: '/payment-success',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PricingRoute = PricingRouteImport.update({
@@ -74,9 +92,12 @@ const TermsRoute = TermsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/case-studies': typeof CaseStudiesRoute
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/infrastructure': typeof InfrastructureRoute
   '/joint-ventures': typeof JointVenturesRoute
+  '/payment-cancelled': typeof PaymentCancelledRoute
+  '/payment-success': typeof PaymentSuccessRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/refund-policy': typeof RefundPolicyRoute
@@ -86,9 +107,12 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/case-studies': typeof CaseStudiesRoute
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/infrastructure': typeof InfrastructureRoute
   '/joint-ventures': typeof JointVenturesRoute
+  '/payment-cancelled': typeof PaymentCancelledRoute
+  '/payment-success': typeof PaymentSuccessRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/refund-policy': typeof RefundPolicyRoute
@@ -99,9 +123,12 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/case-studies': typeof CaseStudiesRoute
+  '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/infrastructure': typeof InfrastructureRoute
   '/joint-ventures': typeof JointVenturesRoute
+  '/payment-cancelled': typeof PaymentCancelledRoute
+  '/payment-success': typeof PaymentSuccessRoute
   '/pricing': typeof PricingRoute
   '/privacy': typeof PrivacyRoute
   '/refund-policy': typeof RefundPolicyRoute
@@ -113,9 +140,12 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/case-studies'
+    | '/checkout'
     | '/contact'
     | '/infrastructure'
     | '/joint-ventures'
+    | '/payment-cancelled'
+    | '/payment-success'
     | '/pricing'
     | '/privacy'
     | '/refund-policy'
@@ -125,9 +155,12 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/case-studies'
+    | '/checkout'
     | '/contact'
     | '/infrastructure'
     | '/joint-ventures'
+    | '/payment-cancelled'
+    | '/payment-success'
     | '/pricing'
     | '/privacy'
     | '/refund-policy'
@@ -137,9 +170,12 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/case-studies'
+    | '/checkout'
     | '/contact'
     | '/infrastructure'
     | '/joint-ventures'
+    | '/payment-cancelled'
+    | '/payment-success'
     | '/pricing'
     | '/privacy'
     | '/refund-policy'
@@ -150,9 +186,12 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CaseStudiesRoute: typeof CaseStudiesRoute
+  CheckoutRoute: typeof CheckoutRoute
   ContactRoute: typeof ContactRoute
   InfrastructureRoute: typeof InfrastructureRoute
   JointVenturesRoute: typeof JointVenturesRoute
+  PaymentCancelledRoute: typeof PaymentCancelledRoute
+  PaymentSuccessRoute: typeof PaymentSuccessRoute
   PricingRoute: typeof PricingRoute
   PrivacyRoute: typeof PrivacyRoute
   RefundPolicyRoute: typeof RefundPolicyRoute
@@ -176,6 +215,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CaseStudiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -195,6 +241,20 @@ declare module '@tanstack/react-router' {
       path: '/joint-ventures'
       fullPath: '/joint-ventures'
       preLoaderRoute: typeof JointVenturesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payment-cancelled': {
+      id: '/payment-cancelled'
+      path: '/payment-cancelled'
+      fullPath: '/payment-cancelled'
+      preLoaderRoute: typeof PaymentCancelledRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payment-success': {
+      id: '/payment-success'
+      path: '/payment-success'
+      fullPath: '/payment-success'
+      preLoaderRoute: typeof PaymentSuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pricing': {
@@ -238,9 +298,12 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CaseStudiesRoute: CaseStudiesRoute,
+  CheckoutRoute: CheckoutRoute,
   ContactRoute: ContactRoute,
   InfrastructureRoute: InfrastructureRoute,
   JointVenturesRoute: JointVenturesRoute,
+  PaymentCancelledRoute: PaymentCancelledRoute,
+  PaymentSuccessRoute: PaymentSuccessRoute,
   PricingRoute: PricingRoute,
   PrivacyRoute: PrivacyRoute,
   RefundPolicyRoute: RefundPolicyRoute,
